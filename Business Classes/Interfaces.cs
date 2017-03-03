@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 namespace Business_Classes
 {
     //need to determine what the delegate does
-    public delegate void collideHandler(Object sender, EventArgs e);
+    public delegate void collideHandler(ICollidable collidableParam);
 
     public enum Direction
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Business_Classes;
 using Microsoft.Xna.Framework;
 using System.Timers;
-
+using System.Collections;
 
 namespace Business_Classes
 {
@@ -25,7 +25,6 @@ namespace Business_Classes
         }
         public static GameState Parse(string filecontent)
         {
-
             return null;
         }
 
@@ -56,22 +55,38 @@ namespace Business_Classes
         public ScoreAndLives Score
         {
             get { return score; }
-            set { }
         }
     }
     public class Pacman
     {
         private GameState controller;
         private Maze maze;
+        private Vector2 pos;
 
         public Pacman(GameState state)
         {
             controller = state;
+            this.maze = state.Maze;
         }
 
         public void Move(Direction dir)
         {
-
+            switch (dir)
+            {
+                case Direction.Up:
+                    break;
+                case Direction.Down:
+                    break;
+                case Direction.Left:
+                    break;
+                case Direction.Right:
+                    break;
+            }
+        }
+        public Vector2 Position
+        {
+            get { return pos; }
+            set { pos = value; }
         }
 
         public void CheckCollisions()
@@ -82,14 +97,14 @@ namespace Business_Classes
 
     public class ScoreAndLives
     {
-        //Hello
-        private int points = 0;
-        private int lives = 2;
+        private int points;
+        private int lives;
 
         //need to create a delegate
         public ScoreAndLives(GameState state)
         {
             points = state.Score.Score;
+            lives = state.Score.Lives;
         }
         //public event GameOver()
         public int Lives
@@ -104,19 +119,26 @@ namespace Business_Classes
             set { points = value; }
         }
 
+ 
         //EVENT HANDLERS
-        /*
-        private deadPacman()
+      
+        private void deadPacman()
         {
-
+            if (lives >= 1)
+            {
+                lives -= 1;
+            }
+            else if (lives < 1)
+            {
+                Console.WriteLine();
+            }
         }
 
-        private incrementScore(ICollidable collide)
+        private void incrementScore(ICollidable collide)
         {
-
-        }*/
-
-
+            Score += collide.Points;
+        }
+        
     }
 
     public class Pellet : ICollidable
@@ -138,26 +160,25 @@ namespace Business_Classes
 
         public event collideHandler Collision;
 
-        protected virtual void OnCollision()
+        protected virtual void OnCollision(ICollidable scoreUpdate)
         {
             if(Collision != null)
             {
-				//eventarsg empty for now 
-				Collision(this,EventArgs.Empty);
+				Collision(scoreUpdate);
             }
         }
 
         public void Collide()
         {
-            OnCollision();
+            OnCollision(this);
         }
     }
-    public class Energizers : ICollidable
+    public class Energizer : ICollidable
     {
         private int points = 100;
         private GhostPack ghosts;
 
-        int ICollidable.Points
+        public int Points
         {
             get
             {
@@ -172,23 +193,23 @@ namespace Business_Classes
 
         public event collideHandler Collision;
 
-        public Energizers(GhostPack ghosts)
+        public Energizer(GhostPack ghosts)
         {
             this.ghosts = ghosts;
         }
 
-        protected virtual void OnCollision()
+        protected virtual void OnCollision(ICollidable param)
         {
             collideHandler handler = Collision;
             if (Collision != null)
             {
-                handler();
+                Collision(param);
             }
         }
 
         public void Collide()
         {
-            OnCollision();
+            OnCollision(this);
         }
     }
     public class Ghost : IMovable, ICollidable
@@ -304,7 +325,7 @@ namespace Business_Classes
             }
         }
     }
-    public class GhostPack
+    public class GhostPack: IEnumerable<Ghost>
     {
         private List<Ghost> ghosts;
 
@@ -335,7 +356,17 @@ namespace Business_Classes
 
         public void Add(Ghost g)
         {
+            ghosts.Add(g);
+        }
 
+        public IEnumerator<Ghost> GetEnumerator()
+        {
+            return ghosts.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return ghosts.GetEnumerator();
         }
     }
     public class Pen
