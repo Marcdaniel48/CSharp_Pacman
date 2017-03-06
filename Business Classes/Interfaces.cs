@@ -7,24 +7,29 @@ using Microsoft.Xna.Framework;
 
 namespace Business_Classes
 {
-    //need to determine what the delegate does
-    public delegate void collideHandler(ICollidable collidableParam);
 
     public enum Direction
     {
         Up, Down, Left, Right
     }
 
+    public enum GhostState
+    {
+        Scared, Chase, Released
+    }
+
+    public delegate void ICollidableEventHandler(ICollidable Collidable);
+
     public interface ICollidable
     {
-        event collideHandler Collision;
+        event ICollidableEventHandler Collision;
+
         int Points
         {
             get;
             set;
         }
-
-
+        
         void Collide();
 
     }

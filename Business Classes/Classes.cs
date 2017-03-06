@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
 namespace Business_Classes
-{// hi
+{
     public abstract class Tile
     {
         private int x;
         private int y;
+
         public Tile(int x, int y)
         {
             this.x = x;
@@ -18,10 +19,10 @@ namespace Business_Classes
         }
 
 
-        public abstract Vector2 Position()
+        public Vector2 Position()
         {
-
         }
+
         public abstract ICollidable Member
         {
             get;
@@ -35,7 +36,7 @@ namespace Business_Classes
         public abstract Boolean IsEmpty();
 
 
-        public abstract float GetDistance(Vector2 goal);
+        public float GetDistance(Vector2 goal);
 
     }
     public class Wall : Tile
@@ -68,7 +69,7 @@ namespace Business_Classes
             throw new NotImplementedException();
         }
 
-        public override float GetDistnce(Vector2 goal)
+        public override float GetDistance(Vector2 goal)
         {
             throw new NotImplementedException();
         }
@@ -103,7 +104,7 @@ namespace Business_Classes
             throw new NotImplementedException();
         }
 
-        public override float GetDistnce(Vector2 goal)
+        public override float GetDistance(Vector2 goal)
         {
             throw new NotImplementedException();
         }

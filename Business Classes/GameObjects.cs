@@ -10,90 +10,6 @@ using System.Collections;
 
 namespace Business_Classes
 {
-   
-    public class GameState
-    {
-        Pacman pman;
-        GhostPack ghosts;
-        Maze maze;
-        Pen pen;
-        ScoreAndLives score;
-
-        public GameState()
-        {
-
-        }
-        public static GameState Parse(string filecontent)
-        {
-            return null;
-        }
-
-        public Pacman Pacman
-        {
-            get { return pman; }
-            private set { pman = value; }
-        }
-
-        public GhostPack GhostPack
-        {
-            get { return ghosts; }
-            private set { ghosts = value; }
-        }
-
-        public Maze Maze
-        {
-            get { return maze; }
-            private set { maze = value; }
-        }
-
-        public Pen Pen
-        {
-            get { return pen; }
-            private set { Pen = value; }
-        }
-
-        public ScoreAndLives Score
-        {
-            get { return score; }
-        }
-    }
-    public class Pacman
-    {
-        private GameState controller;
-        private Maze maze;
-        private Vector2 pos;
-
-        public Pacman(GameState state)
-        {
-            controller = state;
-            this.maze = state.Maze;
-        }
-
-        public void Move(Direction dir)
-        {
-            switch (dir)
-            {
-                case Direction.Up:
-                    break;
-                case Direction.Down:
-                    break;
-                case Direction.Left:
-                    break;
-                case Direction.Right:
-                    break;
-            }
-        }
-        public Vector2 Position
-        {
-            get { return pos; }
-            set { pos = value; }
-        }
-
-        public void CheckCollisions()
-        {
-
-        }
-    }
 
     public class ScoreAndLives
     {
@@ -158,21 +74,22 @@ namespace Business_Classes
             }
         }
 
-        public event collideHandler Collision;
+        public event ICollidableEventHandler Collision;
 
-        protected virtual void OnCollision(ICollidable scoreUpdate)
+        protected virtual void OnCollision()
         {
             if(Collision != null)
             {
-				Collision(scoreUpdate);
+				Collision(this);
             }
         }
 
         public void Collide()
         {
-            OnCollision(this);
+            OnCollision();
         }
     }
+
     public class Energizer : ICollidable
     {
         private int points = 100;
@@ -190,26 +107,28 @@ namespace Business_Classes
                 points = value;
             }
         }
-
-        public event collideHandler Collision;
+        
 
         public Energizer(GhostPack ghosts)
         {
             this.ghosts = ghosts;
         }
 
-        protected virtual void OnCollision(ICollidable param)
+        public event ICollidableEventHandler Collision;
+
+
+        protected virtual void OnCollision()
         {
-            collideHandler handler = Collision;
             if (Collision != null)
             {
-                Collision(param);
+                Collision(this);
             }
         }
 
         public void Collide()
         {
-            OnCollision(this);
+            OnCollision();
+            ghosts.ScaredGhosts();
         }
     }
     public class Ghost : IMovable, ICollidable
@@ -220,48 +139,67 @@ namespace Business_Classes
         private Maze maze;
         private Direction direction;
         private String colour; // Change type to Color
-        private IGhostState currentState;
+        private GhostState currentState;
         private static Timer scared;
-
-        public event collideHandler Collision;
-
-        //public Ghost() { }
         
-        public Ghost(GameState G, int X, int y, Vector2 target,IGhostState start, String color)
+
+        public Ghost(GameState g, int x, int y, Vector2 target, GhostState start, String color)
         {
-            scared.Start();
+            this.pacman = g.Pacman;
+            this.target = target;
+            this.pen = g.Pen;
+            this.maze = g.Maze;
+            this.colour = color;
+            this.currentState = start;
         }
 
-        //public event PacmanDied;
-        //public event Collision;
 
-        public IGhostState CurrentState
+        public event ICollidableEventHandler Collision;
+        public delegate void PacmanDeathEventHandler();
+        public event PacmanDeathEventHandler pacmanDies;
+
+
+        protected virtual void OnCollision()
+        {
+            if (Collision != null)
+            {
+                Collision(this);
+            }
+        }
+
+        public void Collide()
+        {
+            OnCollision();
+        }
+
+
+        public GhostState CurrentState
         {
             get { return currentState; }
         }
 
         public String Colour //change return type to Color
         {
-            get { return colour;}
-            set { }
+            get { return colour; }
         }
 
         public void Reset()
         {
-            currentState = new Chase(this, this.maze, this.pacman, this.target);
+            currentState = GhostState.Chase;
         }
 
-        public void ChangeState(IGhostState stateParam)
+        public void ChangeState(GhostState stateParam)
         {
-            if(currentState is Chase)
+            if(currentState == GhostState.Chase)
             {
-                currentState = new Scared(this, this.maze);
+                currentState = GhostState.Scared;
             }
-            else if(currentState is Scared)
+            else if(currentState == GhostState.Scared)
             {
-                Reset();
+                currentState = GhostState.Chase;
             }
         }
+
         public void Move()
         {
             switch (direction)
@@ -279,11 +217,6 @@ namespace Business_Classes
                     target.X += 1;
                     break;
             }
-        }
-
-        public void Collide()
-        {
-            throw new NotImplementedException();
         }
 
         public Direction Direction
@@ -325,6 +258,7 @@ namespace Business_Classes
             }
         }
     }
+
     public class GhostPack: IEnumerable<Ghost>
     {
         private List<Ghost> ghosts;
@@ -334,9 +268,9 @@ namespace Business_Classes
 
         }
 
-        public Boolean CheckCollideGhosts(Vector2 bearing)
+        public void CheckCollideGhosts(Vector2 bearing)
         {
-            return true;
+
         }
 
         public void ResetGhosts()
@@ -346,7 +280,7 @@ namespace Business_Classes
 
         public void ScaredGhosts()
         {
-
+            
         }
 
         public void Move()
@@ -354,9 +288,9 @@ namespace Business_Classes
 
         }
 
-        public void Add(Ghost g)
+        public void Add(Ghost aGhost)
         {
-            ghosts.Add(g);
+            ghosts.Add(aGhost);
         }
 
         public IEnumerator<Ghost> GetEnumerator()
@@ -369,27 +303,72 @@ namespace Business_Classes
             return ghosts.GetEnumerator();
         }
     }
+
+    /// <summary>
+    /// The Pen represents the area where Ghosts go when the game starts, when they are eaten or when
+    /// Pacman dies and they need to restart. The Pen releases Ghosts in a First-In-First-Out manner, after
+    /// a time period has elapsed.
+    /// </summary>
     public class Pen
     {
-        private Queue<Ghost> ghosts;
-        private List<Timer> timers;
-        private List<Tile> pen;
+        private Queue<Ghost> ghosts; //fifo structure to release the appropriate ghost
+        private List<Timer> timers; //multiple times since more than 1 Ghost may be in teh Pen
+        private List<Tile> pen; //list of the Tiles that make up the Pen, so two ghosts aren't placed on teh same Tile
 
+        /// <summary>
+        /// Constructor instantiates the internal data structures to empty
+        /// </summary>
         public Pen()
         {
-
+            this.ghosts = new Queue<Ghost>();
+            this.timers = new List<Timer>();
+            pen = new List<Tile>();
         }
 
-        public void AddTime(Tile tile)
+        /// <summary>
+        /// This method add Tiles to the Pen area. It is meant to be invoked when the game is being
+        /// initialized by the GameState.
+        /// </summary>
+        /// <param name="tile">a Tiles that is part of the Pen</param>
+        public void AddTile(Tile tile)
         {
-
+            pen.Add(tile);
         }
 
+        /// <summary>
+        /// Event handler for a Timer Elapsed event. Each time a Timer elapses,
+        /// the first Ghost in the queue is dequeued and released, and the Timer is removed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Release(object sender, ElapsedEventArgs e)
+        {
+            Timer t = (Timer)sender;
+            t.Enabled = false;
+            Ghost g = ghosts.Dequeue();
+            timers.Remove(t);
+            g.ChangeState(GhostState.Released);
+        }
+
+        /// <summary>
+        /// Every time a Ghost is added to the Pen (either at the beginning of the
+        /// game when the game is being initialized, or every time the Ghost needs to be reset),
+        /// it is enqueued. It's position is determined by the next unoccupied Tile in the Pen.
+        /// A timer is started: the timer duration is based on how many ghosts are enqueued, so that 
+        /// they are not all released at the same time.
+        /// </summary>
+        /// <param name="ghost"></param>
         public void AddToPen(Ghost ghost)
         {
-
+            ghosts.Enqueue(ghost);
+            ghost.Position = pen[ghosts.Count - 1].Position;
+            Timer t = new Timer((ghosts.Count * 1000));
+            t.Enabled = true;
+            t.Elapsed += Release;
+            timers.Add(t);
         }
     }
+
     /// <summary>
     /// The Scared class encapsulates the required behaviour when a Ghost is in scared state. The Ghost will
     /// change direction immediately upon instantiating the Scared state. Each move is subsequently randomly
@@ -469,7 +448,15 @@ namespace Business_Classes
 
         public Chase(Ghost ghost, Maze maze, Pacman pacman, Vector2 target)
         {
+            this.ghost = ghost;
+            this.maze = maze;
+            this.pacman = pacman;
+            this.target = target;
+        }
 
+        public void Move()
+        {
+            throw new NotImplementedException();
         }
     }
 }
