@@ -42,7 +42,7 @@ namespace Business_Classes
 
         public void CheckCollisions()
         {
-
+            
         }
     }
 }

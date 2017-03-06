@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Business_Classes
         public static GameState Parse(string filecontent)
         {
             string[] lines = File.ReadAllLines(filecontent);
-            Tile[,] tilesArray = new Tile[lines.Length, lines[0].ToCharArray().Length];
+            Tile[,] tilesArray = new Tile[lines.Length, lines[0].Split(',').Length];
 
             GameState state = new GameState();
 
@@ -35,36 +36,64 @@ namespace Business_Classes
             {
                 for(int j = 0; j < tilesArray.GetLength(1); j++)
                 {
-                    switch(lines[i].ToCharArray()[j])
+                    switch(lines[i].Split(',')[j])
                     {
-                        case 'w':
+                        case "w":
                             tilesArray[i, j] = new Wall(i, j);
                             break;
-                        case 'p':
+                        case "p":
                             Pellet pel = new Pellet();
-                            //pel.Collision += ScoreAndLives.incrementScore; // incrementScore is private FAQ
+                            pel.Collision += state.scoreNLives.incrementScore; 
                             tilesArray[i, j] = new Path(i,j,pel);
                             break;
-                        case 'e':
-                            // Energizer energ = new Energizer(); // Can't give it packOfGhosts
+                        case "e":
+                            Energizer energ = new Energizer(state.packOfGhosts);
+                            energ.Collision += state.scoreNLives.incrementScore;
+                            tilesArray[i, j] = new Path(i, j, energ);
                             break;
-                        case 'm':
+                        case "m":
                             tilesArray[i, j] = new Path(i, j, null);
                             break;
-                        /*case (char)1:
-                            Ghost blinky = new Ghost(state, i, j, null, GhostState.Chase, "Red"); //vector2 in constructor is null
+                        case "1":
+                            Ghost blinky = new Ghost(state, i, j, new Microsoft.Xna.Framework.Vector2(1,1), GhostState.Chase, "Red"); // target vector is what??
+                            blinky.Collision += state.scoreNLives.incrementScore;
+                            state.packOfGhosts.Add(blinky);
+                            tilesArray[i, j] = new Path(i, j, null);
                             break; 
-                        case (char)2:
+                        case "2":
+                            Ghost Pinky = new Ghost(state, i, j, new Microsoft.Xna.Framework.Vector2(2, 2), GhostState.Chase, "Pink");
+                            Pinky.Collision += state.scoreNLives.incrementScore;
+                            state.packOfGhosts.Add(Pinky);
+                            tilesArray[i, j] = new Path(i, j, null);
+                            state.Pen.AddTile(tilesArray[i, j]);
+                            state.Pen.AddToPen(Pinky);
                             break;
-                        case (char)3:
+                        case "3":
+                            Ghost Inky = new Ghost(state, i, j, new Microsoft.Xna.Framework.Vector2(3, 3), GhostState.Chase, "Blue");
+                            Inky.Collision += state.scoreNLives.incrementScore;
+                            state.packOfGhosts.Add(Inky);
+                            tilesArray[i, j] = new Path(i, j, null);
+                            state.Pen.AddTile(tilesArray[i, j]);
+                            state.Pen.AddToPen(Inky);
                             break;
-                        case (char)4:
+                        case "4":
+                            Ghost Clyde = new Ghost(state, i, j, new Microsoft.Xna.Framework.Vector2(4, 4), GhostState.Chase, "Clyde");
+                            Clyde.Collision += state.scoreNLives.incrementScore;
+                            state.packOfGhosts.Add(Clyde);
+                            tilesArray[i, j] = new Path(i, j, null);
+                            state.Pen.AddTile(tilesArray[i, j]);
+                            state.Pen.AddToPen(Clyde);
                             break;
-                        case 'P':
-                            break;*/
+                        case "P":
+                            tilesArray[i, j] = new Path(i, j, null);
+                            state.pman.Position = new Vector2(i,j);
+                            break;
                     }
                 }
             }
+
+            state.Maze.SetTiles(tilesArray);
+            return state;
 
         }
 

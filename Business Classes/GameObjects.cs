@@ -50,7 +50,7 @@ namespace Business_Classes
             }
         }
 
-        private void incrementScore(ICollidable collide)
+        public void incrementScore(ICollidable collide)
         {
             Score += collide.Points;
         }
