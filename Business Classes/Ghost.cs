@@ -20,12 +20,14 @@ namespace Business_Classes
         private String colour; // Change type to Color
         private GhostState currentState;
         private static Timer scared;
+        private Vector2 startPosition;
 
 
         public Ghost(GameState g, int x, int y, Vector2 target, GhostState start, String color)
         {
             this.pacman = g.Pacman;
             this.target = target;
+            startPosition = new Vector2(x, y);
             this.pen = g.Pen;
             this.maze = g.Maze;
             this.colour = color;
@@ -36,7 +38,15 @@ namespace Business_Classes
 
         public event ICollidableEventHandler Collision;
         public delegate void PacmanDeathEventHandler();
-        public event PacmanDeathEventHandler pacmanDies;
+        public event PacmanDeathEventHandler PacmanDied;
+
+        protected virtual void OnPacmanDied()
+        {
+            if(PacmanDied != null)
+            {
+                PacmanDied();
+            }
+        }
 
 
         protected virtual void OnCollision()
@@ -73,8 +83,9 @@ namespace Business_Classes
             if(currentState == GhostState.Released)
             {
                 currentState = GhostState.Chase;
+                this.Position = startPosition;
             }
-            if (currentState == GhostState.Chase)
+            else if (currentState == GhostState.Chase)
             {
                 currentState = GhostState.Scared;
             }
@@ -159,7 +170,7 @@ namespace Business_Classes
         {
             foreach(var ghost in ghosts)
             {
-                ghost
+                //ghost
             }
         }
 

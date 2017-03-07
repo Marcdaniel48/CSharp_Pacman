@@ -21,6 +21,13 @@ namespace Business_Classes
         {
             points = state.Score.Score;
             lives = state.Score.Lives;
+
+            foreach (var ghost in state.GhostPack)
+            {
+                ghost.Collision += incrementScore;
+                ghost.PacmanDied += deadPacman;
+            }
+
             GameOver += gameLost;
         }
 
@@ -30,6 +37,7 @@ namespace Business_Classes
         {
             if(GameOver != null)
             {
+                //need to determine delegate input
                 GameOver();
             }
         }
@@ -56,16 +64,13 @@ namespace Business_Classes
             }
             else if (lives < 1)
             {
-                //needs to decide on event handler
+                OnGameOver();
             }
         }
 
         public void incrementScore(ICollidable collide)
-        {
-            if (collide is Pellet || collide is Energizer)
-            {
+        {   
                 Score += collide.Points;
-            }
         }
 
         public void gameLost()
@@ -303,7 +308,13 @@ namespace Business_Classes
 
         public void Move()
         {
-            throw new NotImplementedException();
+            if (pacman.Position.Y > ghost.Position.Y)
+            {
+                if (maze[(int)ghost.Position.X, (int)ghost.Position.Y + 1].CanEnter())
+                {
+                    
+                }
+            }
         }
     }
 }
