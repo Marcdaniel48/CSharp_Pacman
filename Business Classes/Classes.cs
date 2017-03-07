@@ -46,16 +46,18 @@ namespace Business_Classes
 
         public override ICollidable Member
         {
-            get
-            {
-                return this.Member;
-            }
-
             set
             {
-                this.Member = value;
+                throw new NotImplementedException();
+            }
+            get
+            {
+                throw new NotImplementedException();
+
             }
         }
+
+        
 
         public override bool CanEnter()
         {
@@ -122,7 +124,7 @@ namespace Business_Classes
     {
         private Tile[,] maze;
 
-        public delegate void winDecisionHandler(bool decision);
+        public delegate void winDecisionHandler();
 
         public Maze()
         {
@@ -136,10 +138,10 @@ namespace Business_Classes
         //events
         public event winDecisionHandler PacmanWon;
 
-        protected virtual void onPacmanWon(bool decision)
+        protected virtual void onPacmanWon()
         {
             if (PacmanWon != null){
-                PacmanWon(decision);
+                PacmanWon();
             }
         }
         public Tile this[int x, int y]
@@ -237,7 +239,7 @@ namespace Business_Classes
 
             if (allEmpty)
             {
-                //PacmanWon;
+                
             }
         }
 

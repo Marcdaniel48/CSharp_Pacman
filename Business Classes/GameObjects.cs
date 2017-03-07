@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace Business_Classes
 {
-
+    public delegate void gameOverHandler();
     public class ScoreAndLives
     {
         private int points;
@@ -22,7 +22,16 @@ namespace Business_Classes
             points = state.Score.Score;
             lives = state.Score.Lives;
         }
-        //public event GameOver()
+
+        public event gameOverHandler GameOver;
+
+        protected void OnGameOver()
+        {
+            if(GameOver != null)
+            {
+                GameOver();
+            }
+        }
         public int Lives
         {
             get { return lives; }
@@ -46,13 +55,18 @@ namespace Business_Classes
             }
             else if (lives < 1)
             {
-                Console.WriteLine();
+                
             }
         }
 
         public void incrementScore(ICollidable collide)
         {
             Score += collide.Points;
+        }
+
+        public void gameLost()
+        {
+
         }
         
     }
