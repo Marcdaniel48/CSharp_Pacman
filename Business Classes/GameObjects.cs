@@ -236,12 +236,12 @@ namespace Business_Classes
         {
             get
             {
-                throw new NotImplementedException();
+                return this.target;
             }
 
             set
             {
-                throw new NotImplementedException();
+                this.target = value;
             }
         }
 

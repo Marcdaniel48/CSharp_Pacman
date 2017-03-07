@@ -34,7 +34,7 @@ namespace Business_Classes
 
         public float GetDistance(Vector2 goal)
         {
-            return 0.00;//com back later
+            return Vector2.Distance(this.Position, goal);
         }
 
     }
@@ -42,19 +42,18 @@ namespace Business_Classes
     {
         public Wall(int x, int y) :base(x,y)
         {
-            
         }
 
         public override ICollidable Member
         {
             get
             {
-                throw new NotImplementedException();
+                return this.Member;
             }
 
             set
             {
-                throw new NotImplementedException();
+                this.Member = value;
             }
         }
 
@@ -65,25 +64,17 @@ namespace Business_Classes
 
         public override void Collide()
         {
-            
-        }
-
-        public override float GetDistance(Vector2 goal)
-        {
             throw new NotImplementedException();
         }
+        
 
         public override bool IsEmpty()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
-       
-        public Vector2 Position
-        {
-            get;
-        }
     }
+
     public class Path : Tile
     {
         private ICollidable member;
@@ -95,17 +86,12 @@ namespace Business_Classes
 
         public override bool CanEnter()
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public override void Collide()
         {
-            throw new NotImplementedException();
-        }
-
-        public override float GetDistance(Vector2 goal)
-        {
-            goal.Distance();
+            this.Member.Collide();
         }
 
         public override bool IsEmpty()
@@ -117,15 +103,18 @@ namespace Business_Classes
 
             return false;
         }
+        
 
         public override ICollidable Member
         {
-            get { return member; }
-        }
-
-        public Vector2 Position
-        {
-            get;
+            get
+            {
+                return this.Member;
+            }
+            set
+            {
+                this.Member = value;
+            }
         }
     }
 
@@ -137,7 +126,6 @@ namespace Business_Classes
 
         public Maze()
         {
-
         }
 
         public void SetTiles(Tile[,] maze)
@@ -167,7 +155,6 @@ namespace Business_Classes
 
         public List<Tile> GetAvailableNeighbours(Vector2 position, Direction dir)
         {
-            //if((int)position.X <= maze.GetLength(0) && (int)position.Y <= maze.GetLength(1))
             List<Tile> pathTiles = new List<Tile>();
 
             switch (dir)
@@ -250,7 +237,7 @@ namespace Business_Classes
 
             if (allEmpty)
             {
-                onPacmanWon();
+                //PacmanWon;
             }
         }
 
