@@ -308,13 +308,21 @@ namespace Business_Classes
 
         public void Move()
         {
-            if (pacman.Position.Y > ghost.Position.Y)
+            Tile currentPosition = maze[(int)ghost.Position.X, (int)ghost.Position.Y];
+            List<Tile> paths = maze.GetAvailableNeighbours(ghost.Position, ghost.Direction);
+
+            if(pacman.Position.Y > ghost.Position.Y)
             {
-                if (maze[(int)ghost.Position.X, (int)ghost.Position.Y + 1].CanEnter())
+                foreach(Tile tile in paths)
                 {
-                    
+                    if(tile.Position == new Vector2(ghost.Position.X, ghost.Position.Y + 1))
+                    {
+                        ghost.Direction = Direction.Up;
+                    }
                 }
             }
+
+           
         }
     }
 }

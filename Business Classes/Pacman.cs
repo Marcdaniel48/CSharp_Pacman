@@ -62,7 +62,7 @@ namespace Business_Classes
 
         public void CheckCollisions()
         {
-            controller.Score.incrementScore(maze[(int)Position.X, (int)Position.Y].Member);
+            
         }
     }
 }
