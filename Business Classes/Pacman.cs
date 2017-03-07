@@ -24,12 +24,32 @@ namespace Business_Classes
             switch (dir)
             {
                 case Direction.Up:
+                    if(maze[(int)Position.X,(int)Position.Y+1] is Path)
+                    {
+                        pos = new Vector2(Position.X, Position.Y+1);
+                        this.CheckCollisions();
+                    }
                     break;
                 case Direction.Down:
+                    if (maze[(int)Position.X, (int)Position.Y-1] is Path)
+                    {
+                        pos = new Vector2(Position.X, Position.Y - 1);
+                        this.CheckCollisions();
+                    }
                     break;
                 case Direction.Left:
+                    if (maze[(int)Position.X-1, (int)Position.Y] is Path)
+                    {
+                        pos = new Vector2(Position.X-1, Position.Y);
+                        this.CheckCollisions();
+                    }
                     break;
                 case Direction.Right:
+                    if (maze[(int)Position.X+1, (int)Position.Y] is Path)
+                    {
+                        pos = new Vector2(Position.X+1, Position.Y);
+                        this.CheckCollisions();
+                    }
                     break;
             }
         }
@@ -42,7 +62,7 @@ namespace Business_Classes
 
         public void CheckCollisions()
         {
-            
+            controller.Score.incrementScore(maze[(int)Position.X, (int)Position.Y].Member);
         }
     }
 }
