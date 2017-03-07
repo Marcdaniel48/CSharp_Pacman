@@ -47,6 +47,7 @@
     <Compile Include="Classes.cs" />
     <Compile Include="GameObjects.cs" />
     <Compile Include="GameState.cs" />
+    <Compile Include="Ghost.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Pacman.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

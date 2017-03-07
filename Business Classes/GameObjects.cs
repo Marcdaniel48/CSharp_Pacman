@@ -21,6 +21,7 @@ namespace Business_Classes
         {
             points = state.Score.Score;
             lives = state.Score.Lives;
+            GameOver += gameLost;
         }
 
         public event gameOverHandler GameOver;
@@ -55,13 +56,16 @@ namespace Business_Classes
             }
             else if (lives < 1)
             {
-                
+                //needs to decide on event handler
             }
         }
 
         public void incrementScore(ICollidable collide)
         {
-            Score += collide.Points;
+            if (collide is Pellet || collide is Energizer)
+            {
+                Score += collide.Points;
+            }
         }
 
         public void gameLost()
@@ -145,178 +149,7 @@ namespace Business_Classes
             ghosts.ScaredGhosts();
         }
     }
-    public class Ghost : IMovable, ICollidable
-    {
-        private Pacman pacman;
-        private Vector2 target;
-        private Pen pen;
-        private Maze maze;
-        private Direction direction;
-        private String colour; // Change type to Color
-        private GhostState currentState;
-        private static Timer scared;
-        
-
-        public Ghost(GameState g, int x, int y, Vector2 target, GhostState start, String color)
-        {
-            this.pacman = g.Pacman;
-            this.target = target;
-            this.pen = g.Pen;
-            this.maze = g.Maze;
-            this.colour = color;
-            this.currentState = start;
-        }
-
-
-        public event ICollidableEventHandler Collision;
-        public delegate void PacmanDeathEventHandler();
-        public event PacmanDeathEventHandler pacmanDies;
-
-
-        protected virtual void OnCollision()
-        {
-            if (Collision != null)
-            {
-                Collision(this);
-            }
-        }
-
-        public void Collide()
-        {
-            OnCollision();
-        }
-
-
-        public GhostState CurrentState
-        {
-            get { return currentState; }
-        }
-
-        public String Colour //change return type to Color
-        {
-            get { return colour; }
-        }
-
-        public void Reset()
-        {
-            currentState = GhostState.Chase;
-        }
-
-        public void ChangeState(GhostState stateParam)
-        {
-            if(currentState == GhostState.Chase)
-            {
-                currentState = GhostState.Scared;
-            }
-            else if(currentState == GhostState.Scared)
-            {
-                currentState = GhostState.Chase;
-            }
-        }
-
-        public void Move()
-        {
-            switch (direction)
-            {
-                case Direction.Up:
-                    target.Y += 1;
-                    break;
-                case Direction.Down:
-                    target.Y -= 1;
-                    break;
-                case Direction.Left:
-                    target.X -= 1;
-                    break;
-                case Direction.Right:
-                    target.X += 1;
-                    break;
-            }
-        }
-
-        public Direction Direction
-        {
-            get
-            {
-                return direction;
-            }
-
-            set
-            {
-                direction = value;
-            }
-        }
-
-        public Vector2 Position
-        {
-            get
-            {
-                return this.target;
-            }
-
-            set
-            {
-                this.target = value;
-            }
-        }
-
-        public int Points
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-    }
-
-    public class GhostPack: IEnumerable<Ghost>
-    {
-        private List<Ghost> ghosts;
-
-        public GhostPack()
-        {
-
-        }
-
-        public void CheckCollideGhosts(Vector2 bearing)
-        {
-
-        }
-
-        public void ResetGhosts()
-        {
-
-        }
-
-        public void ScaredGhosts()
-        {
-            
-        }
-
-        public void Move()
-        {
-
-        }
-
-        public void Add(Ghost aGhost)
-        {
-            ghosts.Add(aGhost);
-        }
-
-        public IEnumerator<Ghost> GetEnumerator()
-        {
-            return ghosts.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ghosts.GetEnumerator();
-        }
-    }
+    
 
     /// <summary>
     /// The Pen represents the area where Ghosts go when the game starts, when they are eaten or when
