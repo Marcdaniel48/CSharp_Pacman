@@ -18,7 +18,7 @@ namespace Business_Classes
         private Maze maze;
         private Direction direction;
         private String colour; // Change type to Color
-        private GhostState currentState;
+        private IGhostState currentState;
         private static Timer scared;
         private Vector2 startPosition;
 
@@ -31,8 +31,7 @@ namespace Business_Classes
             this.pen = g.Pen;
             this.maze = g.Maze;
             this.colour = color;
-            //need to use enum
-            this.currentState = start;
+            this.CurrentState = start;
         }
 
 
@@ -65,7 +64,8 @@ namespace Business_Classes
 
         public GhostState CurrentState
         {
-            get { return currentState; }
+            get;
+            set;
         }
 
         public String Colour //change return type to Color
@@ -75,43 +75,38 @@ namespace Business_Classes
 
         public void Reset()
         {
-            currentState = GhostState.Chase;
+            if (CurrentState == GhostState.Chase)
+            {
+                CurrentState = GhostState.Released;
+            }
+            else if(CurrentState == GhostState.Scared)
+            {
+                currentState = new Chase(this, maze, pacman, Position);
+                CurrentState = GhostState.Chase;
+            }
+
         }
 
         public void ChangeState(GhostState stateParam)
         {
-            if(currentState == GhostState.Released)
+            if(CurrentState == GhostState.Released)
             {
-                currentState = GhostState.Chase;
+                currentState = new Chase(this,maze,pacman,Position);
                 this.Position = startPosition;
             }
-            else if (currentState == GhostState.Chase)
+            else if (CurrentState == GhostState.Chase)
             {
-                currentState = GhostState.Scared;
+                currentState = new Scared(this, maze);
             }
-            else if (currentState == GhostState.Scared)
+            else if (CurrentState == GhostState.Scared)
             {
-                currentState = GhostState.Chase;
+                currentState = new Chase(this, maze, pacman, Position);
             }
         }
 
         public void Move()
         {
-            switch (direction)
-            {
-                case Direction.Up:
-                    target.Y += 1;
-                    break;
-                case Direction.Down:
-                    target.Y -= 1;
-                    break;
-                case Direction.Left:
-                    target.X -= 1;
-                    break;
-                case Direction.Right:
-                    target.X += 1;
-                    break;
-            }
+            currentState.Move();
         }
 
         public Direction Direction
@@ -170,7 +165,7 @@ namespace Business_Classes
         {
             foreach(var ghost in ghosts)
             {
-                //ghost
+                ghost.
             }
         }
 
@@ -178,7 +173,7 @@ namespace Business_Classes
         {
             foreach(var ghost in ghosts)
             {
-                ghost.ChangeState(GhostState.Chase);
+                ghost.Reset();
             }
         }
 
@@ -192,7 +187,10 @@ namespace Business_Classes
 
         public void Move()
         {
-            
+            foreach(var ghost in ghosts)
+            {
+                ghost.Move();
+            }
         }
 
         public void Add(Ghost aGhost)
