@@ -27,7 +27,7 @@ namespace Business_Classes
                 ghost.Collision += incrementScore;
                 ghost.PacmanDied += deadPacman;
             }
-
+            state.Maze.PacmanWon += gameWon;
             GameOver += gameLost;
         }
 
@@ -73,9 +73,14 @@ namespace Business_Classes
                 Score += collide.Points;
         }
 
+        public void gameWon()
+        {
+            Score += 5000;
+        }
+
         public void gameLost()
         {
-
+            Score -= Score;
         }
         
     }

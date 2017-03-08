@@ -124,7 +124,7 @@ namespace Business_Classes
     {
         private Tile[,] maze;
 
-        public delegate void winDecisionHandler();
+        public delegate void winHandler();
 
         public Maze()
         {
@@ -135,10 +135,10 @@ namespace Business_Classes
             this.maze = maze; 
         }
 
-        //events
-        public event winDecisionHandler PacmanWon;
+        //event
+        public event winHandler PacmanWon;
 
-        protected virtual void onPacmanWon()
+        protected virtual void OnPacmanWon()
         {
             if (PacmanWon != null){
                 PacmanWon();
@@ -239,7 +239,7 @@ namespace Business_Classes
 
             if (allEmpty)
             {
-                
+                OnPacmanWon();
             }
         }
 

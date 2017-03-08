@@ -63,6 +63,7 @@ namespace Business_Classes
         public void CheckCollisions()
         {
             controller.GhostPack.CheckCollideGhosts(Position);
+
         }
     }
 }

@@ -58,7 +58,14 @@ namespace Business_Classes
 
         public void Collide()
         {
-            OnCollision();
+            if (CurrentState == GhostState.Chase)
+            {
+                OnPacmanDied();
+            }
+            else if (CurrentState == GhostState.Scared)
+            {
+                OnCollision();
+            }
         }
 
 
@@ -77,7 +84,7 @@ namespace Business_Classes
         {
             if (CurrentState == GhostState.Chase)
             {
-                CurrentState = GhostState.Released;
+                //CurrentState = GhostState.Released;
             }
             else if(CurrentState == GhostState.Scared)
             {
@@ -161,11 +168,14 @@ namespace Business_Classes
         {
         }
 
-        public void CheckCollideGhosts(Vector2 bearing)
+        public void CheckCollideGhosts(Vector2 pacPosition)
         {
-            foreach(var ghost in ghosts)
+           foreach(var ghost in ghosts)
             {
-                ghost.
+                if(ghost.Position == pacPosition)
+                {
+                    ghost.Collide();
+                }
             }
         }
 
