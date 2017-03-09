@@ -62,10 +62,12 @@ namespace Business_Classes
             if (CurrentState == GhostState.Chase)
             {
                 OnPacmanDied();
+                
             }
             else if (CurrentState == GhostState.Scared)
             {
                 OnCollision();
+                pen.AddToPen(this);
             }
 
         }
@@ -85,6 +87,7 @@ namespace Business_Classes
         public void Reset()
         {
             ChangeState(GhostState.Released);
+            //pen.AddToPen(this);
             this.Position = startPosition;
         }
 
@@ -200,7 +203,6 @@ namespace Business_Classes
             foreach(var ghost in ghosts)
             {
                 ghost.Move();
-                CheckCollideGhosts();
             }
         }
 

@@ -99,18 +99,29 @@ namespace Business_Classes
             Tile currentPosition = maze[(int)ghost.Position.X, (int)ghost.Position.Y];
             List<Tile> paths = maze.GetAvailableNeighbours(ghost.Position, ghost.Direction);
 
-            if (pacman.Position.Y > ghost.Position.Y)
+            foreach (Tile tile in paths)
             {
-                foreach (Tile tile in paths)
+               if(pacman.Position.Y > ghost.Position.Y || tile.Position.Y == ghost.Position.Y+1)
                 {
-                    if (tile.Position == new Vector2(ghost.Position.X, ghost.Position.Y + 1))
-                    {
-                        ghost.Direction = Direction.Up;
-                    }
+                    ghost.Direction = Direction.Up;
+                    ghost.Position = tile.Position;
+                }
+               else if(pacman.Position.X > ghost.Position.X || tile.Position.X == ghost.Position.X+1)
+                {
+                    ghost.Direction = Direction.Right;
+                    ghost.Position = tile.Position;
+                }
+               else if(ghost.Position.Y > pacman.Position.Y || tile.Position.Y == ghost.Position.Y-1)
+                {
+                    ghost.Direction = Direction.Down;
+                    ghost.Position = tile.Position;
+                }
+               else
+                {
+                    ghost.Direction = Direction.Left;
+                    ghost.Position = tile.Position;
                 }
             }
-
-
         }
     }
 }
