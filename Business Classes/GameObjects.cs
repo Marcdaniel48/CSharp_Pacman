@@ -22,11 +22,7 @@ namespace Business_Classes
             points = state.Score.Score;
             lives = state.Score.Lives;
 
-            foreach (var ghost in state.GhostPack)
-            {
-                ghost.Collision += incrementScore;
-                ghost.PacmanDied += deadPacman;
-            }
+            
             state.Maze.PacmanWon += gameWon;
             GameOver += gameLost;
         }
@@ -56,7 +52,7 @@ namespace Business_Classes
  
         //EVENT HANDLERS
       
-        private void deadPacman()
+        public void deadPacman()
         {
             if (lives >= 1)
             {
@@ -80,7 +76,7 @@ namespace Business_Classes
 
         public void gameLost()
         {
-            Score -= Score;
+            Score -= Score+1;
         }
         
     }

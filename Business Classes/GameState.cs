@@ -55,34 +55,34 @@ namespace Business_Classes
                             tilesArray[i, j] = new Path(i, j, null);
                             break;
                         case "1":
-                            Ghost blinky = new Ghost(state, i, j, new Microsoft.Xna.Framework.Vector2(1,1), GhostState.Chase, "Red"); // target vector is what??
+                            Ghost blinky = new Ghost(state, i, j, new Vector2(1,1), GhostState.Chase, "Red"); // target vector is what??
                             blinky.Collision += state.scoreNLives.incrementScore;
-                            blinky.pacmanDies += state.scoreNLives.deadPacman;
+                            blinky.PacmanDied += state.scoreNLives.deadPacman;
                             state.packOfGhosts.Add(blinky);
                             tilesArray[i, j] = new Path(i, j, null);
                             break; 
                         case "2":
-                            Ghost Pinky = new Ghost(state, i, j, new Microsoft.Xna.Framework.Vector2(2, 2), GhostState.Chase, "Pink");
+                            Ghost Pinky = new Ghost(state, i, j, new Vector2(2, 2), GhostState.Chase, "Pink");
                             Pinky.Collision += state.scoreNLives.incrementScore;
-                            Pinky.pacmanDies += state.scoreNLives.deadPacman;
+                            Pinky.PacmanDied += state.scoreNLives.deadPacman;
                             state.packOfGhosts.Add(Pinky);
                             tilesArray[i, j] = new Path(i, j, null);
                             state.Pen.AddTile(tilesArray[i, j]);
                             state.Pen.AddToPen(Pinky);
                             break;
                         case "3":
-                            Ghost Inky = new Ghost(state, i, j, new Microsoft.Xna.Framework.Vector2(3, 3), GhostState.Chase, "Blue");
+                            Ghost Inky = new Ghost(state, i, j, new Vector2(3, 3), GhostState.Chase, "Blue");
                             Inky.Collision += state.scoreNLives.incrementScore;
-                            Inky.pacmanDies += state.scoreNLives.deadPacman;
+                            Inky.PacmanDied += state.scoreNLives.deadPacman;
                             state.packOfGhosts.Add(Inky);
                             tilesArray[i, j] = new Path(i, j, null);
                             state.Pen.AddTile(tilesArray[i, j]);
                             state.Pen.AddToPen(Inky);
                             break;
                         case "4":
-                            Ghost Clyde = new Ghost(state, i, j, new Microsoft.Xna.Framework.Vector2(4, 4), GhostState.Chase, "Clyde");
+                            Ghost Clyde = new Ghost(state, i, j, new Vector2(4, 4), GhostState.Chase, "Clyde");
                             Clyde.Collision += state.scoreNLives.incrementScore;
-                            Clyde.pacmanDies += state.scoreNLives.deadPacman;
+                            Clyde.PacmanDied += state.scoreNLives.deadPacman;
                             state.packOfGhosts.Add(Clyde);
                             tilesArray[i, j] = new Path(i, j, null);
                             state.Pen.AddTile(tilesArray[i, j]);

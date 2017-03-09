@@ -19,9 +19,8 @@ namespace Business_Classes
         private Direction direction;
         private String colour; // Change type to Color
         private IGhostState currentState;
-        private static Timer scared;
+        private static Timer scared; // What do we do with this?
         private Vector2 startPosition;
-
 
         public Ghost(GameState g, int x, int y, Vector2 target, GhostState start, String color)
         {
@@ -31,7 +30,9 @@ namespace Business_Classes
             this.pen = g.Pen;
             this.maze = g.Maze;
             this.colour = color;
+            this.Points = 200;
             this.CurrentState = start;
+            ChangeState(start);
         }
 
 
@@ -66,13 +67,14 @@ namespace Business_Classes
             {
                 OnCollision();
             }
+
         }
 
 
         public GhostState CurrentState
         {
             get;
-            set;
+            private set;
         }
 
         public String Colour //change return type to Color
@@ -82,33 +84,26 @@ namespace Business_Classes
 
         public void Reset()
         {
-            if (CurrentState == GhostState.Chase)
-            {
-                //CurrentState = GhostState.Released;
-            }
-            else if(CurrentState == GhostState.Scared)
-            {
-                currentState = new Chase(this, maze, pacman, Position);
-                CurrentState = GhostState.Chase;
-            }
-
+            ChangeState(GhostState.Released);
+            this.Position = startPosition;
         }
 
         public void ChangeState(GhostState stateParam)
         {
-            if(CurrentState == GhostState.Released)
+            if(stateParam == GhostState.Chase)
             {
-                currentState = new Chase(this,maze,pacman,Position);
-                this.Position = startPosition;
+                currentState = new Scared(this,maze);
             }
-            else if (CurrentState == GhostState.Chase)
-            {
-                currentState = new Scared(this, maze);
-            }
-            else if (CurrentState == GhostState.Scared)
+            else if(stateParam == GhostState.Scared)
             {
                 currentState = new Chase(this, maze, pacman, Position);
             }
+            else if(stateParam == GhostState.Released)
+            {
+                currentState = new Chase(this, maze, pacman, Position);
+            }
+
+            CurrentState = stateParam;
         }
 
         public void Move()
@@ -146,16 +141,9 @@ namespace Business_Classes
         {
             get
             {
-                if(CurrentState == GhostState.Scared)
-                {
-                    return 200;
-                }
-                return 0;
+                return Points;
             }
-            set
-            {
-                this.Points = value;
-            }
+            set { Points = value; }
 
         }
     }
@@ -174,9 +162,21 @@ namespace Business_Classes
             {
                 if(ghost.Position == pacPosition)
                 {
-                    ghost.Collide();
+                    switch (ghost.CurrentState)
+                    {
+                        case GhostState.Chase:
+                            ghost.Collide();
+                            ResetGhosts();
+                            break;
+                        case GhostState.Scared:
+                            ghost.Collide();
+                            ghost.Reset();
+                            break;
+                    }
+                    
                 }
             }
+
         }
 
         public void ResetGhosts()
@@ -200,6 +200,7 @@ namespace Business_Classes
             foreach(var ghost in ghosts)
             {
                 ghost.Move();
+                CheckCollideGhosts();
             }
         }
 
