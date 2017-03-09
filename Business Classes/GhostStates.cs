@@ -99,29 +99,39 @@ namespace Business_Classes
             Tile currentPosition = maze[(int)ghost.Position.X, (int)ghost.Position.Y];
             List<Tile> paths = maze.GetAvailableNeighbours(ghost.Position, ghost.Direction);
 
-            foreach (Tile tile in paths)
+            int movablePaths = paths.Count;
+            if(movablePaths == 0)
             {
-               if(pacman.Position.Y > ghost.Position.Y || tile.Position.Y == ghost.Position.Y+1)
-                {
-                    ghost.Direction = Direction.Up;
-                    ghost.Position = tile.Position;
-                }
-               else if(pacman.Position.X > ghost.Position.X || tile.Position.X == ghost.Position.X+1)
-                {
-                    ghost.Direction = Direction.Right;
-                    ghost.Position = tile.Position;
-                }
-               else if(ghost.Position.Y > pacman.Position.Y || tile.Position.Y == ghost.Position.Y-1)
-                {
-                    ghost.Direction = Direction.Down;
-                    ghost.Position = tile.Position;
-                }
-               else
-                {
-                    ghost.Direction = Direction.Left;
-                    ghost.Position = tile.Position;
-                }
+                throw new Exception("Nowhere to go.");
             }
+
+            Random rand = new Random();
+            int goHere = rand.Next(movablePaths);
+            
+            if(pacman.Position.Y > ghost.Position.Y && paths[goHere].Position.Y == ghost.Position.Y + 1)
+            {
+                ghost.Direction = Direction.Up;
+                ghost.Position = paths[goHere].Position; 
+            }
+            else if(pacman.Position.X > ghost.Position.X && paths[goHere].Position.X == ghost.Position.X + 1)
+            {
+                ghost.Direction = Direction.Right;
+                ghost.Position = paths[goHere].Position;
+
+            }
+            else if(ghost.Position.Y > pacman.Position.Y && paths[goHere].Position.Y == ghost.Position.Y - 1)
+            {
+                ghost.Direction = Direction.Down;
+                ghost.Position = paths[goHere].Position;
+
+            }
+            else if(ghost.Position.X > pacman.Position.X && paths[goHere].Position.X == ghost.Position.X - 1)
+            {
+                ghost.Direction = Direction.Left;
+                ghost.Position = paths[goHere].Position;
+                
+            }
+            
         }
     }
 }
