@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="GameState.cs" />
     <Compile Include="GhostTest.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Independent_Classes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
