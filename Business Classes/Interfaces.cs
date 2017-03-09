@@ -20,6 +20,9 @@ namespace Business_Classes
 
     public delegate void ICollidableEventHandler(ICollidable Collidable);
 
+    /// <summary>
+    /// Outline for a collidable object
+    /// </summary>
     public interface ICollidable
     {
         event ICollidableEventHandler Collision;
@@ -34,6 +37,9 @@ namespace Business_Classes
 
     }
     
+    /// <summary>
+    /// Outline for a moveable object
+    /// </summary>
     public interface IMovable
     {
         Direction Direction
@@ -49,6 +55,7 @@ namespace Business_Classes
 
         void Move();                 
     }
+
 
     public interface IGhostState
     {

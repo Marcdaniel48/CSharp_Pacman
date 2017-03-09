@@ -7,18 +7,29 @@ using Microsoft.Xna.Framework;
 
 namespace Business_Classes
 {
+    /// <summary>
+    /// Represents the playable character of the pacman game
+    /// </summary>
     public class Pacman
     {
         private GameState controller;
         private Maze maze;
         private Vector2 pos;
 
+        /// <summary>
+        /// Creates pacman depending on the gamestate and gives pacman a layout of the maze
+        /// </summary>
+        /// <param name="state"></param>
         public Pacman(GameState state)
         {
             controller = state;
             this.maze = state.Maze;
         }
 
+        /// <summary>
+        /// Controls movement of pacman
+        /// </summary>
+        /// <param name="dir">Direction you want to move in</param>
         public void Move(Direction dir)
         {
             switch (dir)
@@ -61,6 +72,9 @@ namespace Business_Classes
             set { pos = value; }
         }
 
+        /// <summary>
+        /// Uses the ghostpack's checkcollideghosts method to check for a collision whenever pacman moves
+        /// </summary>
         public void CheckCollisions()
         {
             controller.GhostPack.CheckCollideGhosts(Position);

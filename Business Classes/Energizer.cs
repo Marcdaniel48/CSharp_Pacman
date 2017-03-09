@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace Business_Classes
 {
+    /// <summary>
+    /// Represents the energizer in Pacman.
+    /// </summary>
     public class Energizer : ICollidable
     {
-        private int points = 100;
+        private int points = 100; // The amount of points the energizer is worth
         private GhostPack ghosts;
 
         public int Points
@@ -33,6 +36,9 @@ namespace Business_Classes
         public event ICollidableEventHandler Collision;
 
 
+        /// <summary>
+        /// Event trigger for when pacman collides with an energizer
+        /// </summary>
         protected virtual void OnCollision()
         {
             if (Collision != null)
@@ -41,6 +47,9 @@ namespace Business_Classes
             }
         }
 
+        /// <summary>
+        /// What happens when pacman collides with an energizer: calls the OnCollision method and sets the state of all ghosts to scared
+        /// </summary>
         public void Collide()
         {
             OnCollision();

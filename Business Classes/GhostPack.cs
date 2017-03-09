@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework;
 
 namespace Business_Classes
 {
+    /// <summary>
+    /// An object representing a list of all the ghosts in pacman
+    /// </summary>
     public class GhostPack : IEnumerable<Ghost>
     {
         private List<Ghost> ghosts;
@@ -17,6 +20,10 @@ namespace Business_Classes
             this.ghosts = new List<Ghost>();
         }
 
+        /// <summary>
+        /// Loops through every single ghost and checks for collision
+        /// </summary>
+        /// <param name="pacPosition"></param>
         public void CheckCollideGhosts(Vector2 pacPosition)
         {
             foreach (var ghost in ghosts)
@@ -40,6 +47,9 @@ namespace Business_Classes
 
         }
 
+        /// <summary>
+        /// Loops through every single ghost and resets them, using their own reset method.
+        /// </summary>
         public void ResetGhosts()
         {
             foreach (var ghost in ghosts)
@@ -48,6 +58,10 @@ namespace Business_Classes
             }
         }
 
+
+        /// <summary>
+        /// Changes the state of all ghosts into scared
+        /// </summary>
         public void ScaredGhosts()
         {
             foreach (var ghost in ghosts)
@@ -56,6 +70,9 @@ namespace Business_Classes
             }
         }
 
+        /// <summary>
+        /// Makes every single ghost move, using their own move methods
+        /// </summary>
         public void Move()
         {
             foreach (var ghost in ghosts)
@@ -64,11 +81,20 @@ namespace Business_Classes
             }
         }
 
+        /// <summary>
+        /// Adds a ghost into the ghost pack
+        /// </summary>
+        /// <param name="aGhost"></param>
         public void Add(Ghost aGhost)
         {
             ghosts.Add(aGhost);
         }
 
+
+        /// <summary>
+        /// Allows us to iterate through the ghost pack
+        /// </summary>
+        /// <returns></returns>
         public IEnumerator<Ghost> GetEnumerator()
         {
             return ghosts.GetEnumerator();

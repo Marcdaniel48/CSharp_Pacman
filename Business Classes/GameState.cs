@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Business_Classes
 {
+    /// <summary>
+    /// Represents the state of the pacman game
+    /// </summary>
     public class GameState
     {
         Pacman pman;
@@ -16,6 +19,7 @@ namespace Business_Classes
         Pen pen;
         ScoreAndLives scoreNLives;
 
+        // initializes the members of the GameState object and GameState
         public GameState()
         {
             pen = new Pen();
@@ -24,6 +28,13 @@ namespace Business_Classes
             scoreNLives = new ScoreAndLives(this);
             pman = new Pacman(this);
         }
+
+        /// <summary>
+        /// Reads a file representing the layout of the pacman game, and builds the maze accordingly, while creating and
+        /// setting up pacman, the ghosts, and the pellets & energizers
+        /// </summary>
+        /// <param name="filecontent">The layout of the pacman maze</param>
+        /// <returns>The gamestate</returns>
 
         public static GameState Parse(string filecontent)
         {
@@ -55,7 +66,7 @@ namespace Business_Classes
                             tilesArray[i, j] = new Path(i, j, null);
                             break;
                         case "1":
-                            Ghost blinky = new Ghost(state, i, j, new Vector2(1,1), GhostState.Chase, "Red"); // target vector is what??
+                            Ghost blinky = new Ghost(state, i, j, new Vector2(1,1), GhostState.Chase, "Red");
                             blinky.Collision += state.scoreNLives.incrementScore;
                             blinky.PacmanDied += state.scoreNLives.deadPacman;
                             state.packOfGhosts.Add(blinky);
@@ -100,6 +111,7 @@ namespace Business_Classes
             return state;
 
         }
+
 
         public Pacman Pacman
         {

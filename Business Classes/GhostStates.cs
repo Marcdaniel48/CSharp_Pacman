@@ -79,6 +79,10 @@ namespace Business_Classes
         }
     }
 
+
+    /// <summary>
+    /// Represents the behavior of a ghost in chase state
+    /// </summary>
     public class Chase : IGhostState
     {
         private Ghost ghost;
@@ -94,44 +98,53 @@ namespace Business_Classes
             this.target = target;
         }
 
+
+        /// <summary>
+        /// Moves ghost according to the chase state. Calculates the distance between
+        /// the ghost's currrent position and its target, then uses the calculated distance
+        /// to determine the closest tile the ghost should move to.
+        /// </summary>
         public void Move()
         {
             Tile currentPosition = maze[(int)ghost.Position.X, (int)ghost.Position.Y];
             List<Tile> paths = maze.GetAvailableNeighbours(ghost.Position, ghost.Direction);
 
-            int movablePaths = paths.Count;
-            if(movablePaths == 0)
+            if (paths.Count == 0)
             {
                 throw new Exception("Nowhere to go.");
             }
 
-            Random rand = new Random();
-            int goHere = rand.Next(movablePaths);
-            
-            if(pacman.Position.Y > ghost.Position.Y && paths[goHere].Position.Y == ghost.Position.Y + 1)
+            float lowestDistance = paths[0].GetDistance(target);
+            int index = 0;
+            for(int i =0;i<paths.Count; i++)
+            {
+                if (lowestDistance > paths[i].GetDistance(target))
+                {
+                    lowestDistance = paths[i].GetDistance(target);
+                    index = i;
+                }
+            }
+           
+
+            if(paths[index].Position.Y > ghost.Position.Y)
             {
                 ghost.Direction = Direction.Up;
-                ghost.Position = paths[goHere].Position; 
             }
-            else if(pacman.Position.X > ghost.Position.X && paths[goHere].Position.X == ghost.Position.X + 1)
+            else if(paths[index].Position.X > ghost.Position.X)
             {
                 ghost.Direction = Direction.Right;
-                ghost.Position = paths[goHere].Position;
-
             }
-            else if(ghost.Position.Y > pacman.Position.Y && paths[goHere].Position.Y == ghost.Position.Y - 1)
+            else if(ghost.Position.Y > paths[index].Position.Y)
             {
                 ghost.Direction = Direction.Down;
-                ghost.Position = paths[goHere].Position;
-
             }
-            else if(ghost.Position.X > pacman.Position.X && paths[goHere].Position.X == ghost.Position.X - 1)
+            else if(ghost.Position.X > paths[index].Position.X)
             {
                 ghost.Direction = Direction.Left;
-                ghost.Position = paths[goHere].Position;
-                
             }
-            
+
+            ghost.Position = paths[index].Position;
+
         }
     }
 }

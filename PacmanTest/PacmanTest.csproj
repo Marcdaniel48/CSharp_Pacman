@@ -53,8 +53,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="GameState.cs" />
-    <Compile Include="GhostTest.cs" />
+    <Compile Include="TestGhost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestPath.cs" />
     <Compile Include="TestPellet.cs" />

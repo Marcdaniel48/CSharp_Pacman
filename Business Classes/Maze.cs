@@ -7,9 +7,12 @@ using Microsoft.Xna.Framework;
 
 namespace Business_Classes
 {
+    /// <summary>
+    /// Represents the maze/map of the pacman game.
+    /// </summary>
     public class Maze
     {
-        private Tile[,] maze;
+        private Tile[,] maze; // The maze is made into a array of tiles
 
         public delegate void winHandler();
 
@@ -17,6 +20,10 @@ namespace Business_Classes
         {
         }
 
+        /// <summary>
+        /// Sets the tiles of the maze
+        /// </summary>
+        /// <param name="maze">An array of tiles representing the map</param>
         public void SetTiles(Tile[,] maze)
         {
             this.maze = maze;
@@ -32,17 +39,31 @@ namespace Business_Classes
                 PacmanWon();
             }
         }
+
+        /// <summary>
+        /// Indexer. X and Y of a tile on the map
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public Tile this[int x, int y]
         {
             get { return maze[x, y]; }
             set { maze[x, y] = value; }
         }
 
+
         public int Size
         {
             get { return maze.GetLength(0); }
         }
 
+        /// <summary>
+        /// The amount of available tiles an object(pacman & ghost) can move to
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="dir"></param>
+        /// <returns></returns>
         public List<Tile> GetAvailableNeighbours(Vector2 position, Direction dir)
         {
             List<Tile> pathTiles = new List<Tile>();
@@ -110,6 +131,9 @@ namespace Business_Classes
             return pathTiles;
         }
 
+        /// <summary>
+        /// Checks to see if there are no more points nor energizers on the maze. If there are none, trigger the pacman won event
+        /// </summary>
         public void CheckMembersLeft()
         {
 

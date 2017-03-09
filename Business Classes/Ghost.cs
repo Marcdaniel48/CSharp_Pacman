@@ -10,6 +10,9 @@ using System.Collections;
 
 namespace Business_Classes
 {
+    /// <summary>
+    /// Represents a ghost object in a pacman game
+    /// </summary>
     public class Ghost : IMovable, ICollidable
     {
         private Pacman pacman;
@@ -19,14 +22,25 @@ namespace Business_Classes
         private Direction direction;
         private String colour; // Change type to Color
         private IGhostState currentState;
-        private static Timer scaredTime;
+        private Timer scaredTime;
         private Vector2 startPosition;
+        private Vector2 position;
 
+        /// <summary>
+        /// Creates a ghost
+        /// </summary>
+        /// <param name="g">The gamestate</param>
+        /// <param name="x">The x position of the ghost</param>
+        /// <param name="y">The y position of the ghost</param>
+        /// <param name="target">Where the ghost wants to go</param>
+        /// <param name="start">The starting state of the ghost</param>
+        /// <param name="color">Color of the ghost</param>
         public Ghost(GameState g, int x, int y, Vector2 target, GhostState start, String color)
         {
             this.pacman = g.Pacman;
             this.target = target;
-            startPosition = new Vector2(x, y);
+            position = new Vector2(x, y);
+            startPosition = position;
             this.pen = g.Pen;
             this.maze = g.Maze;
             this.colour = color;
@@ -36,7 +50,7 @@ namespace Business_Classes
             ChangeState(start);
         }
 
-
+        // Events and delegates
         public event ICollidableEventHandler Collision;
         public delegate void PacmanDeathEventHandler();
         public event PacmanDeathEventHandler PacmanDied;
@@ -58,6 +72,10 @@ namespace Business_Classes
             }
         }
 
+        /// <summary>
+        /// When a collision has been detected, then depending on the state of the ghost,
+        /// pacman will either die or consume the ghost
+        /// </summary>
         public void Collide()
         {
             if(this.Position == pacman.Position)
@@ -72,6 +90,9 @@ namespace Business_Classes
                         break;
                 }
             }
+            target = pacman.Position;
+
+
 
         }
 
@@ -87,13 +108,19 @@ namespace Business_Classes
             get { return colour; }
         }
 
+        /// <summary>
+        /// Resets ghost to starting state and starting position
+        /// </summary>
         public void Reset()
         {
             ChangeState(GhostState.Released);
-            //pen.AddToPen(this);
             this.Position = startPosition;
         }
 
+        /// <summary>
+        /// Changes the state of the ghost to scared/released/chase, depending on the parameter.
+        /// </summary>
+        /// <param name="stateParam">The state we want to set the ghost into</param>
         public void ChangeState(GhostState stateParam)
         {
             if(stateParam == GhostState.Scared)
@@ -113,6 +140,12 @@ namespace Business_Classes
             CurrentState = stateParam;
         }
 
+
+        /// <summary>
+        /// Returns ghost back into chase state, after the effect of the energizer wears off
+        /// </summary>
+        /// <param name="sender">The timer object</param>
+        /// <param name="e">The time ellapsed event</param>
         public void BackToChase(Object sender, ElapsedEventArgs e)
         {
             Timer time = (Timer)sender;
@@ -120,6 +153,9 @@ namespace Business_Classes
             ChangeState(GhostState.Chase);
         }
 
+        /// <summary>
+        /// Moves ghost based on the IGhostState it is currently set to. When a move has been made, checks to see if a collision has been made
+        /// </summary>
         public void Move()
         {
             currentState.Move();

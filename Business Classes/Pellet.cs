@@ -7,6 +7,9 @@ using Business_Classes;
 
 namespace Business_Classes
 {
+    /// <summary>
+    /// Represents a pellet in pacman. A pellet is worth 10 points.
+    /// </summary>
     public class Pellet : ICollidable
     {
         private int points = 10;
@@ -26,6 +29,9 @@ namespace Business_Classes
 
         public event ICollidableEventHandler Collision;
 
+        /// <summary>
+        /// When pacman lands on a pellet
+        /// </summary>
         protected virtual void OnCollision()
         {
             if (Collision != null)

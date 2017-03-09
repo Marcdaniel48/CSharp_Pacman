@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Business_Classes
 {
+    /// <summary>
+    /// A tile you can move into
+    /// </summary>
     public class Path : Tile
     {
         private ICollidable member;
@@ -25,6 +28,11 @@ namespace Business_Classes
             this.Member.Collide();
         }
 
+
+        /// <summary>
+        /// Checks to see if the current path tile holds a pellet or energizer.
+        /// </summary>
+        /// <returns></returns>
         public override bool IsEmpty()
         {
             if (member == null)
@@ -35,7 +43,9 @@ namespace Business_Classes
             return false;
         }
 
-
+        /// <summary>
+        /// What the path is holding (pellet, energizer, or none)
+        /// </summary>
         public override ICollidable Member
         {
             get
