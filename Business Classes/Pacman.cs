@@ -52,6 +52,7 @@ namespace Business_Classes
                     }
                     break;
             }
+            CheckCollisions();
         }
 
         public Vector2 Position

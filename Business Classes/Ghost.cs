@@ -59,15 +59,17 @@ namespace Business_Classes
 
         public void Collide()
         {
-            if (CurrentState == GhostState.Chase)
+            if(this.Position == pacman.Position)
             {
-                OnPacmanDied();
-                
-            }
-            else if (CurrentState == GhostState.Scared)
-            {
-                OnCollision();
-                pen.AddToPen(this);
+                switch (CurrentState)
+                {
+                    case GhostState.Chase:
+                        OnPacmanDied();
+                        break;
+                    case GhostState.Scared:
+                        OnCollision();
+                        break;
+                }
             }
 
         }
@@ -112,6 +114,7 @@ namespace Business_Classes
         public void Move()
         {
             currentState.Move();
+            Collide();
         }
 
         public Direction Direction
