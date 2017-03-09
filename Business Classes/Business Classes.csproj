@@ -44,7 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Map.cs" />
+    <Compile Include="Energizer.cs" />
+    <Compile Include="GhostPack.cs" />
+    <Compile Include="Tile.cs" />
+    <Compile Include="Maze.cs" />
+    <Compile Include="Path.cs" />
     <Compile Include="Pen.cs" />
     <Compile Include="ScoreAndLives.cs" />
     <Compile Include="GameState.cs" />
@@ -52,13 +56,14 @@
     <Compile Include="GhostStates.cs" />
     <Compile Include="Interfaces.cs" />
     <Compile Include="Pacman.cs" />
-    <Compile Include="PelletEnergizer.cs" />
+    <Compile Include="Pellet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

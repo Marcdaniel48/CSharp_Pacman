@@ -19,7 +19,7 @@ namespace Business_Classes
         private Direction direction;
         private String colour; // Change type to Color
         private IGhostState currentState;
-        private static Timer scared; // What do we do with this?
+        private static Timer scaredTime;
         private Vector2 startPosition;
 
         public Ghost(GameState g, int x, int y, Vector2 target, GhostState start, String color)
@@ -31,7 +31,8 @@ namespace Business_Classes
             this.maze = g.Maze;
             this.colour = color;
             this.Points = 200;
-            this.CurrentState = start;
+            scaredTime = new Timer(10000);
+            scaredTime.Elapsed += BackToChase;
             ChangeState(start);
         }
 
@@ -95,11 +96,12 @@ namespace Business_Classes
 
         public void ChangeState(GhostState stateParam)
         {
-            if(stateParam == GhostState.Chase)
+            if(stateParam == GhostState.Scared)
             {
                 currentState = new Scared(this,maze);
+                scaredTime.Enabled = true;
             }
-            else if(stateParam == GhostState.Scared)
+            else if(stateParam == GhostState.Chase)
             {
                 currentState = new Chase(this, maze, pacman, Position);
             }
@@ -109,6 +111,13 @@ namespace Business_Classes
             }
 
             CurrentState = stateParam;
+        }
+
+        public void BackToChase(Object sender, ElapsedEventArgs e)
+        {
+            Timer time = (Timer)sender;
+            time.Enabled = false;
+            ChangeState(GhostState.Chase);
         }
 
         public void Move()
@@ -151,77 +160,6 @@ namespace Business_Classes
             }
             set { Points = value; }
 
-        }
-    }
-
-    public class GhostPack : IEnumerable<Ghost>
-    {
-        private List<Ghost> ghosts;
-
-        public GhostPack()
-        {
-        }
-
-        public void CheckCollideGhosts(Vector2 pacPosition)
-        {
-           foreach(var ghost in ghosts)
-            {
-                if(ghost.Position == pacPosition)
-                {
-                    switch (ghost.CurrentState)
-                    {
-                        case GhostState.Chase:
-                            ghost.Collide();
-                            ResetGhosts();
-                            break;
-                        case GhostState.Scared:
-                            ghost.Collide();
-                            ghost.Reset();
-                            break;
-                    }
-                    
-                }
-            }
-
-        }
-
-        public void ResetGhosts()
-        {
-            foreach(var ghost in ghosts)
-            {
-                ghost.Reset();
-            }
-        }
-
-        public void ScaredGhosts()
-        {
-            foreach(var ghost in ghosts)
-            {
-                ghost.ChangeState(GhostState.Scared);
-            }
-        }
-
-        public void Move()
-        {
-            foreach(var ghost in ghosts)
-            {
-                ghost.Move();
-            }
-        }
-
-        public void Add(Ghost aGhost)
-        {
-            ghosts.Add(aGhost);
-        }
-
-        public IEnumerator<Ghost> GetEnumerator()
-        {
-            return ghosts.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return ghosts.GetEnumerator();
         }
     }
 }
