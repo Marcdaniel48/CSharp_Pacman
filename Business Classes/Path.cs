@@ -40,11 +40,11 @@ namespace Business_Classes
         {
             get
             {
-                return this.Member;
+                return this.member;
             }
             set
             {
-                this.Member = value;
+                this.member = value;
             }
         }
     }

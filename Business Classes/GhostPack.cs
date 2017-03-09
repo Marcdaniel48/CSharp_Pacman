@@ -14,6 +14,7 @@ namespace Business_Classes
 
         public GhostPack()
         {
+            this.ghosts = new List<Ghost>();
         }
 
         public void CheckCollideGhosts(Vector2 pacPosition)
