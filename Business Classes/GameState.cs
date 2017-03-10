@@ -6,6 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// <summary>
+/// Authors of whole project:
+/// @author: Marc-Daniel Dialogo
+/// @author: Rhai Hinds
+/// @version: 3/10/2017 at 6:08pm
+/// </summary>
 namespace Business_Classes
 {
     /// <summary>
