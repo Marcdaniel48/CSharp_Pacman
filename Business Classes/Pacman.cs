@@ -35,30 +35,30 @@ namespace Business_Classes
             switch (dir)
             {
                 case Direction.Up:
-                    if(maze[(int)Position.X,(int)Position.Y+1] is Path)
+                    if(maze[(int)Position.Y-1, (int)Position.X] is Path)
                     {
-                        pos = new Vector2(Position.X, Position.Y+1);
+                        pos = new Vector2(Position.X, Position.Y-1);
                         this.CheckCollisions();
                     }
                     break;
                 case Direction.Down:
-                    if (maze[(int)Position.X, (int)Position.Y-1] is Path)
+                    if (maze[(int)Position.Y + 1, (int)Position.X] is Path)
                     {
-                        pos = new Vector2(Position.X, Position.Y - 1);
+                        pos = new Vector2(Position.X, Position.Y + 1);
                         this.CheckCollisions();
                     }
                     break;
                 case Direction.Left:
-                    if (maze[(int)Position.X-1, (int)Position.Y] is Path)
+                    if (maze[ (int)Position.Y, (int)Position.X-1] is Path)
                     {
                         pos = new Vector2(Position.X-1, Position.Y);
                         this.CheckCollisions();
                     }
                     break;
                 case Direction.Right:
-                    if (maze[(int)Position.X+1, (int)Position.Y] is Path)
+                    if (maze[(int)Position.Y,(int)Position.X+1] is Path)
                     {
-                        pos = new Vector2(Position.X+1, Position.Y);
+                        pos = new Vector2( Position.X+1, Position.Y);
                         this.CheckCollisions();
                     }
                     break;
@@ -78,7 +78,11 @@ namespace Business_Classes
         public void CheckCollisions()
         {
             controller.GhostSquad.CheckCollideGhosts(Position);
-
+            if(controller.Maze[(int)Position.Y, (int)Position.X].Member != null)
+            {
+                controller.Maze[(int)Position.Y, (int)Position.X].Collide();
+                controller.Maze[(int)Position.Y, (int)Position.X].Member = null;
+            }
         }
     }
 }

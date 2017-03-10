@@ -106,7 +106,7 @@ namespace Business_Classes
         /// </summary>
         public void Move()
         {
-            Tile currentPosition = maze[(int)ghost.Position.X, (int)ghost.Position.Y];
+            Tile currentPosition = maze[(int)ghost.Position.Y, (int)ghost.Position.X];
             List<Tile> paths = maze.GetAvailableNeighbours(ghost.Position, ghost.Direction);
 
             if (paths.Count == 0)
@@ -126,7 +126,7 @@ namespace Business_Classes
             }
            
 
-            if(paths[index].Position.Y > ghost.Position.Y)
+            if(paths[index].Position.Y < ghost.Position.Y)
             {
                 ghost.Direction = Direction.Up;
             }
@@ -138,7 +138,7 @@ namespace Business_Classes
             {
                 ghost.Direction = Direction.Down;
             }
-            else if(ghost.Position.X > paths[index].Position.X)
+            else if(ghost.Position.X < paths[index].Position.X)
             {
                 ghost.Direction = Direction.Left;
             }

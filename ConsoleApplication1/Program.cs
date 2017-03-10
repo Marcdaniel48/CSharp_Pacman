@@ -14,7 +14,7 @@ namespace ConsoleApplication1
         {
 
 
-            /*string[] lines = File.ReadAllLines("../../levels.csv");
+            string[] lines = File.ReadAllLines("TestLevel.csv");
             int newLine = lines.Length;
 
             string[,] arr = new string[lines.Length, lines.Length];
@@ -35,12 +35,12 @@ namespace ConsoleApplication1
                 Console.WriteLine();
             }
             
-            Console.ReadLine();*/
+            Console.ReadLine();
             //GameState lel = GameState.Parse("../../levels.csv");
 
 
             
-            GameState k = GameState.Parse("../../levels.csv");
+            //GameState k = GameState.Parse("../../levels.csv");
         }
     }
 

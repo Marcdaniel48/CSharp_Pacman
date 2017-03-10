@@ -71,59 +71,59 @@ namespace Business_Classes
             switch (dir)
             {
                 case Direction.Up:
-                    if (maze[(int)position.X, (int)position.Y + 1].CanEnter())
+                    if (maze[(int)position.X, (int)position.Y - 1].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.X, (int)position.Y + 1]);
+                        pathTiles.Add(maze[(int)position.Y + 1,(int)position.X]);
                     }
-                    if (maze[(int)position.X - 1, (int)position.Y].CanEnter())
+                    if (maze[(int)position.Y,(int)position.X - 1].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.X - 1, (int)position.Y]);
+                        pathTiles.Add(maze[(int)position.Y,(int)position.X - 1]);
                     }
-                    if (maze[(int)position.X + 1, (int)position.Y].CanEnter())
+                    if (maze[(int)position.Y,(int)position.X + 1].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.X + 1, (int)position.Y]);
+                        pathTiles.Add(maze[(int)position.Y,(int)position.X + 1]);
                     }
                     break;
                 case Direction.Down:
-                    if (maze[(int)position.X, (int)position.Y - 1].CanEnter())
+                    if (maze[(int)position.Y + 1,(int)position.X].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.X, (int)position.Y - 1]);
+                        pathTiles.Add(maze[(int)position.Y - 1,(int)position.X]);
                     }
-                    if (maze[(int)position.X + 1, (int)position.Y].CanEnter())
+                    if (maze[(int)position.Y,(int)position.X + 1].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.X + 1, (int)position.Y]);
+                        pathTiles.Add(maze[(int)position.Y,(int)position.X + 1]);
                     }
-                    if (maze[(int)position.X - 1, (int)position.Y].CanEnter())
+                    if (maze[(int)position.Y,(int)position.X - 1].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.X - 1, (int)position.Y]);
+                        pathTiles.Add(maze[(int)position.Y,(int)position.X - 1]);
                     }
                     break;
                 case Direction.Left:
-                    if (maze[(int)position.X - 1, (int)position.Y].CanEnter())
+                    if (maze[(int)position.Y,(int)position.X - 1].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.X - 1, (int)position.Y]);
+                        pathTiles.Add(maze[(int)position.Y,(int)position.X - 1]);
                     }
-                    if (maze[(int)position.X, (int)position.Y + 1].CanEnter())
+                    if (maze[(int)position.Y + 1,(int)position.X].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.X, (int)position.Y + 1]);
+                        pathTiles.Add(maze[(int)position.Y + 1,(int)position.X]);
                     }
-                    if (maze[(int)position.X, (int)position.Y - 1].CanEnter())
+                    if (maze[(int)position.Y - 1,(int)position.X].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.X, (int)position.Y - 1]);
+                        pathTiles.Add(maze[(int)position.Y - 1,(int)position.X]);
                     }
                     break;
                 case Direction.Right:
-                    if (maze[(int)position.X + 1, (int)position.Y].CanEnter())
+                    if (maze[(int)position.Y, (int)position.X + 1].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.X + 1, (int)position.Y]);
+                        pathTiles.Add(maze[ (int)position.Y, (int)position.X + 1]);
                     }
-                    if (maze[(int)position.X, (int)position.Y - 1].CanEnter())
+                    if (maze[(int)position.Y - 1,(int)position.X ].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.X, (int)position.Y - 1]);
+                        pathTiles.Add(maze[(int)position.Y - 1,(int)position.X ]);
                     }
-                    if (maze[(int)position.X, (int)position.Y + 1].CanEnter())
+                    if (maze[(int)position.Y + 1,(int)position.X ].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.X, (int)position.Y + 1]);
+                        pathTiles.Add(maze[(int)position.Y + 1,(int)position.X ]);
                     }
                     break;
             }

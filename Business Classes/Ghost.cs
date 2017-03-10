@@ -85,13 +85,14 @@ namespace Business_Classes
                 {
                     case GhostState.Chase:
                         OnPacmanDied();
+                        Reset();
                         break;
                     case GhostState.Scared:
                         OnCollision();
                         break;
                 }
             }
-            target = pacman.Position;
+            
 
 
 
@@ -114,6 +115,7 @@ namespace Business_Classes
         /// </summary>
         public void Reset()
         {
+            //pen.AddToPen(this);
             ChangeState(GhostState.Released);
             this.Position = startPosition;
         }
@@ -131,11 +133,11 @@ namespace Business_Classes
             }
             else if(stateParam == GhostState.Chase)
             {
-                currentState = new Chase(this, maze, pacman, Position);
+                currentState = new Chase(this, maze, pacman, target);
             }
             else if(stateParam == GhostState.Released)
             {
-                currentState = new Chase(this, maze, pacman, Position);
+                currentState = new Chase(this, maze, pacman, target);
             }
 
             CurrentState = stateParam;
@@ -161,6 +163,11 @@ namespace Business_Classes
         {
             currentState.Move();
             Collide();
+
+            if (Position == target)
+            {
+                target = pacman.Position;
+            }
         }
 
         public Direction Direction
@@ -180,12 +187,12 @@ namespace Business_Classes
         {
             get
             {
-                return this.target;
+                return this.position;
             }
 
             set
             {
-                this.target = value;
+                this.position = value;
             }
         }
 

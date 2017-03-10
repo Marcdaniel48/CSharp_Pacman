@@ -29,6 +29,7 @@ namespace Business_Classes
         /// <param name="state">The current state of the game</param>
         public ScoreAndLives(GameState state)
         {
+            lives = 2;
             state.Maze.PacmanWon += gameWon;
             GameOver += gameLost;
         }
@@ -78,8 +79,8 @@ namespace Business_Classes
         /// </summary>
         /// <param name="collide">Represents an IColliable object(ghost,pellet,energizer)</param>
         public void incrementScore(ICollidable collide)
-        {   
-                Score += collide.Points;
+        {
+            Score += collide.Points;
         }
 
         //Event hanlder that determines what happens when pacman wins

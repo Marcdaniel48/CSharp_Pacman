@@ -56,8 +56,10 @@
     <Compile Include="TestEnergizer.cs" />
     <Compile Include="TestGameState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestGhost.cs" />
     <Compile Include="TestPath.cs" />
     <Compile Include="TestPellet.cs" />
+    <Compile Include="TestPen.cs" />
     <Compile Include="TestWall.cs" />
   </ItemGroup>
   <ItemGroup>
