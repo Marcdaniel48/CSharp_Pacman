@@ -26,6 +26,7 @@ namespace Business_Classes
         private Vector2 startPosition;
         private Vector2 position;
         private int points;
+        public static Vector2 releasedPosition;
 
         /// <summary>
         /// Creates a ghost
@@ -138,6 +139,7 @@ namespace Business_Classes
             else if(stateParam == GhostState.Released)
             {
                 currentState = new Chase(this, maze, pacman, target);
+                this.Position = Ghost.releasedPosition;
             }
 
             CurrentState = stateParam;

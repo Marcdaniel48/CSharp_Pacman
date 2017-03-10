@@ -63,6 +63,7 @@ namespace Business_Classes
                             tilesArray[i, j] = new Path(j, i, null);
                             break;
                         case "1":
+                            Ghost.releasedPosition = new Vector2(j, i);
                             Ghost blinky = new Ghost(state, j, i, new Vector2(1,1), GhostState.Chase, "Red");
                             blinky.Collision += state.scoreNLives.incrementScore;
                             blinky.PacmanDied += state.scoreNLives.deadPacman;

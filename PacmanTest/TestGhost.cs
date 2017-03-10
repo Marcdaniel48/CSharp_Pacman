@@ -47,7 +47,7 @@ namespace PacmanTest
         }
 
         [TestMethod]
-        public void TestGCollisionOnScared()
+        public void TestCollisionOnScared()
         {
 
             // Makes Pacman move toward a ghost in scared state, and then checks collision on it.
@@ -86,6 +86,7 @@ namespace PacmanTest
         {
             List<Ghost> g = new List<Ghost>();
             int count = 0;
+            // We only needed 1 ghost to test collision with pacman, so we fetched the first ghost that is outside of pen
             foreach (Ghost aGhost in myGameState.GhostSquad)
             {
 
