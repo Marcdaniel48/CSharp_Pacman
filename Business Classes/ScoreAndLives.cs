@@ -29,8 +29,6 @@ namespace Business_Classes
         /// <param name="state">The current state of the game</param>
         public ScoreAndLives(GameState state)
         {
-            points = state.Score.Score;
-            lives = state.Score.Lives;
             state.Maze.PacmanWon += gameWon;
             GameOver += gameLost;
         }

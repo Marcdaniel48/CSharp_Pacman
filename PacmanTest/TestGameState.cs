@@ -6,19 +6,14 @@ using Microsoft.Xna.Framework;
 namespace PacmanTest
 {
     [TestClass]
-    public class TestGhost
+    public class TestGameState
     {
-        Ghost myGhost = new Ghost(new GameState(), 6, 4, new Vector2(3,3), GhostState.Chase, "Blue");
+        GameState myGameState; 
 
         [TestMethod]
-        public void TestMethod1()
+        public void TestParse()
         {
+           
         }
-    }
-
-    [TestClass]
-    public class Chase
-    {
-
     }
 }

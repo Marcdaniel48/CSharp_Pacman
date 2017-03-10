@@ -77,7 +77,7 @@ namespace Business_Classes
         /// </summary>
         public void CheckCollisions()
         {
-            controller.GhostPack.CheckCollideGhosts(Position);
+            controller.GhostSquad.CheckCollideGhosts(Position);
 
         }
     }

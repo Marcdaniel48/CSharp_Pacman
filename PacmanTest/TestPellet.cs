@@ -7,6 +7,8 @@ namespace PacmanTest
     [TestClass]
     public class TestPellet
     {
+        GameState myGameState = GameState.Parse("levels.csv");
+
         Pellet myPellet = new Pellet();
         
         [TestMethod]
@@ -17,10 +19,12 @@ namespace PacmanTest
             Assert.AreEqual(5, myPellet.Points);
         }
 
-        /*[TestMethod]
+        [TestMethod]
         public void TestCollide()
         {
+            myPellet.Collision += myGameState.Score.incrementScore;
             myPellet.Collide();
-        }*/
+            Assert.AreEqual(10, myGameState.Score.Score);
+        }
     }
 }

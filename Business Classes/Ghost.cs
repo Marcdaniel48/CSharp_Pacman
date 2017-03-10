@@ -25,6 +25,7 @@ namespace Business_Classes
         private Timer scaredTime;
         private Vector2 startPosition;
         private Vector2 position;
+        private int points;
 
         /// <summary>
         /// Creates a ghost
@@ -44,7 +45,7 @@ namespace Business_Classes
             this.pen = g.Pen;
             this.maze = g.Maze;
             this.colour = color;
-            this.Points = 200;
+            this.points = 200;
             scaredTime = new Timer(10000);
             scaredTime.Elapsed += BackToChase;
             ChangeState(start);
@@ -192,9 +193,9 @@ namespace Business_Classes
         {
             get
             {
-                return Points;
+                return points;
             }
-            set { Points = value; }
+            set { points = value; }
 
         }
     }

@@ -21,9 +21,10 @@ namespace PacmanTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NotImplementedException),"Not implemented.")]
         public void TestCollide()
         {
-
+            myWall.Collide();
         }
 
         [TestMethod]

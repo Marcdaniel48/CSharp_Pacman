@@ -20,14 +20,6 @@ namespace Business_Classes
         ScoreAndLives scoreNLives;
 
         // initializes the members of the GameState object and GameState
-        public GameState()
-        {
-            pen = new Pen();
-            maze = new Maze();
-            packOfGhosts = new GhostPack();
-            scoreNLives = new ScoreAndLives(this);
-            pman = new Pacman(this);
-        }
 
         /// <summary>
         /// Reads a file representing the layout of the pacman game, and builds the maze accordingly, while creating and
@@ -42,6 +34,11 @@ namespace Business_Classes
             Tile[,] tilesArray = new Tile[lines.Length, lines[0].Split(',').Length];
 
             GameState state = new GameState();
+            state.GhostSquad = new GhostPack();
+            state.Pen = new Pen();
+            state.Maze = new Maze();
+            state.Pacman = new Pacman(state);
+            state.scoreNLives = new ScoreAndLives(state);
 
             for(int i = 0; i < tilesArray.GetLength(0); i++)
             {
@@ -119,7 +116,7 @@ namespace Business_Classes
             private set { pman = value; }
         }
 
-        public GhostPack GhostPack
+        public GhostPack GhostSquad
         {
             get { return packOfGhosts; }
             private set { packOfGhosts = value; }
@@ -134,7 +131,7 @@ namespace Business_Classes
         public Pen Pen
         {
             get { return pen; }
-            private set { Pen = value; }
+            private set { pen = value; }
         }
 
         public ScoreAndLives Score

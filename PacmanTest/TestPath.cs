@@ -8,6 +8,8 @@ namespace PacmanTest
     [TestClass]
     public class TestPath
     {
+        
+        GameState g = GameState.Parse("levels.csv");
         Path myPath = new Path(4, 5, new Pellet());
 
         [TestMethod]
@@ -19,7 +21,9 @@ namespace PacmanTest
         [TestMethod]
         public void TestCollide()
         {
-            
+            myPath.Member.Collision += g.Score.incrementScore;
+            myPath.Collide();
+            Assert.AreEqual(10, g.Score.Score);
         }
 
         [TestMethod]
