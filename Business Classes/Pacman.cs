@@ -16,6 +16,8 @@ namespace Business_Classes
         private Maze maze;
         private Vector2 pos;
 
+        private Vector2 originalPosition;
+
         /// <summary>
         /// Creates pacman depending on the gamestate and gives pacman a layout of the maze
         /// </summary>
@@ -24,6 +26,8 @@ namespace Business_Classes
         {
             controller = state;
             this.maze = state.Maze;
+
+            
         }
 
         /// <summary>
@@ -63,6 +67,7 @@ namespace Business_Classes
                     }
                     break;
             }
+            maze.CheckMembersLeft();
             CheckCollisions();
         }
 
@@ -70,6 +75,12 @@ namespace Business_Classes
         {
             get { return pos; }
             set { pos = value; }
+        }
+
+        public Vector2 OGPosition
+        {
+            get { return originalPosition;  }
+            set { originalPosition = value; }
         }
 
         /// <summary>
@@ -83,6 +94,11 @@ namespace Business_Classes
                 controller.Maze[(int)Position.Y, (int)Position.X].Collide();
                 controller.Maze[(int)Position.Y, (int)Position.X].Member = null;
             }
+        }
+
+        public void Reset()
+        {
+            Position = originalPosition;
         }
     }
 }

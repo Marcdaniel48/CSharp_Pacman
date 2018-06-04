@@ -73,7 +73,7 @@ namespace Business_Classes
                 ghost.Direction = Direction.Left;
             else if (places[choice].Position.Y == ghost.Position.Y - 1)
                 ghost.Direction = Direction.Up;
-            else
+            else if(places[choice].Position.Y == ghost.Position.Y+1)
                 ghost.Direction = Direction.Down;
             ghost.Position = places[choice].Position;
         }
@@ -98,6 +98,11 @@ namespace Business_Classes
             this.target = target;
         }
 
+        public void UpdateTarget(Vector2 target)
+        {
+            this.target = target;
+        }
+
 
         /// <summary>
         /// Moves ghost according to the chase state. Calculates the distance between
@@ -114,36 +119,26 @@ namespace Business_Classes
                 throw new Exception("Nowhere to go.");
             }
 
-            float lowestDistance = paths[0].GetDistance(target);
-            int index = 0;
-            for(int i =0;i<paths.Count; i++)
+            Tile targ = paths[0];
+            float dist = 100;
+            foreach (Tile t in paths)
             {
-                if (lowestDistance > paths[i].GetDistance(target))
+                if (t.GetDistance(target) < dist)
                 {
-                    lowestDistance = paths[i].GetDistance(target);
-                    index = i;
+                    targ = t;
+                    dist = t.GetDistance(target);
                 }
             }
-           
 
-            if(paths[index].Position.Y < ghost.Position.Y)
-            {
-                ghost.Direction = Direction.Up;
-            }
-            else if(paths[index].Position.X > ghost.Position.X)
-            {
+            if (targ.Position.X == ghost.Position.X + 1)
                 ghost.Direction = Direction.Right;
-            }
-            else if(ghost.Position.Y > paths[index].Position.Y)
-            {
-                ghost.Direction = Direction.Down;
-            }
-            else if(ghost.Position.X < paths[index].Position.X)
-            {
+            else if (targ.Position.X == ghost.Position.X - 1)
                 ghost.Direction = Direction.Left;
-            }
-
-            ghost.Position = paths[index].Position;
+            else if (targ.Position.Y == ghost.Position.Y - 1)
+                ghost.Direction = Direction.Up;
+            else if (targ.Position.Y == ghost.Position.Y + 1)
+                ghost.Direction = Direction.Down;
+            ghost.Position = targ.Position;
 
         }
     }

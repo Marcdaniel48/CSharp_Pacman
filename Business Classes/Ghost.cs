@@ -20,9 +20,10 @@ namespace Business_Classes
         private Pen pen;
         private Maze maze;
         private Direction direction;
-        private String colour; // Change type to Color
+        private Color originalClr;
+        private Color colour; // Change type to Color
         private IGhostState currentState;
-        private Timer scaredTime;
+        private static Timer scaredTime;
         private Vector2 startPosition;
         private Vector2 position;
         private int points;
@@ -37,7 +38,7 @@ namespace Business_Classes
         /// <param name="target">Where the ghost wants to go</param>
         /// <param name="start">The starting state of the ghost</param>
         /// <param name="color">Color of the ghost</param>
-        public Ghost(GameState g, int x, int y, Vector2 target, GhostState start, String color)
+        public Ghost(GameState g, int x, int y, Vector2 target, GhostState start, Color color)
         {
             this.pacman = g.Pacman;
             this.target = target;
@@ -45,12 +46,25 @@ namespace Business_Classes
             startPosition = position;
             this.pen = g.Pen;
             this.maze = g.Maze;
+            originalClr = color;
             this.colour = color;
             this.points = 200;
-            scaredTime = new Timer(10000);
+            //scaredTime = new Timer(10000);
             scaredTime.Elapsed += BackToChase;
             ChangeState(start);
         }
+        public static Timer sTime
+        {
+            get
+            {
+                return scaredTime;
+            }
+            set
+            {
+                scaredTime = value;
+            }
+        }
+
 
         // Events and delegates
         public event ICollidableEventHandler Collision;
@@ -87,9 +101,11 @@ namespace Business_Classes
                     case GhostState.Chase:
                         OnPacmanDied();
                         Reset();
+                        pacman.Reset();
                         break;
                     case GhostState.Scared:
                         OnCollision();
+                        Reset();
                         break;
                 }
             }
@@ -106,7 +122,7 @@ namespace Business_Classes
             private set;
         }
 
-        public String Colour //change return type to Color
+        public Color Colour //change return type to Color
         {
             get { return colour; }
         }
@@ -116,9 +132,10 @@ namespace Business_Classes
         /// </summary>
         public void Reset()
         {
-            //pen.AddToPen(this);
+            pen.AddToPen(this);
             ChangeState(GhostState.Released);
             this.Position = startPosition;
+            
         }
 
         /// <summary>
@@ -130,16 +147,22 @@ namespace Business_Classes
             if(stateParam == GhostState.Scared)
             {
                 currentState = new Scared(this,maze);
+                colour = Color.White;
+                scaredTime.Enabled = false;
                 scaredTime.Enabled = true;
+
             }
             else if(stateParam == GhostState.Chase)
             {
                 currentState = new Chase(this, maze, pacman, target);
+                colour = originalClr;
             }
             else if(stateParam == GhostState.Released)
             {
                 currentState = new Chase(this, maze, pacman, target);
                 this.Position = Ghost.releasedPosition;
+                colour = originalClr;
+                stateParam = GhostState.Chase;
             }
 
             CurrentState = stateParam;
@@ -163,13 +186,17 @@ namespace Business_Classes
         /// </summary>
         public void Move()
         {
-            currentState.Move();
-            Collide();
-
-            if (Position == target)
+            if (Position.X == target.X && Position.Y == target.Y)
             {
+                if(currentState is Chase)
+                {
+                    ((Chase)currentState).UpdateTarget(pacman.Position);
+                }                
                 target = pacman.Position;
             }
+       
+            currentState.Move();
+            Collide();
         }
 
         public Direction Direction
@@ -197,6 +224,13 @@ namespace Business_Classes
                 this.position = value;
             }
         }
+        
+        public Vector2 GhostTarget
+        {
+            get { return this.target; }
+
+        }
+
 
         public int Points
         {
@@ -207,5 +241,10 @@ namespace Business_Classes
             set { points = value; }
 
         }
+
+        public Color GhostColour {
+               get { return colour; }
+        }
+
     }
 }

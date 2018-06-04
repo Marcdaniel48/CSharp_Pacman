@@ -21,6 +21,8 @@ namespace Business_Classes
     {
         private int points;
         private int lives;
+        public Boolean isLose = true;
+        public Boolean gameDone = false;
 
         /// <summary>
         /// Constructor initializes the instances of score and lives. It also 
@@ -38,11 +40,9 @@ namespace Business_Classes
 
         protected void OnGameOver()
         {
-            if(GameOver != null)
-            {
-                //need to determine delegate input
+            if (GameOver != null)
+                isLose = true;
                 GameOver();
-            }
         }
 
         public int Lives
@@ -63,11 +63,11 @@ namespace Business_Classes
       /// </summary>
         public void deadPacman()
         {
-            if (lives >= 1)
+            if (lives >= 0)
             {
                 lives -= 1;
             }
-            else if (lives < 1)
+            else
             {
                 OnGameOver();
             }
@@ -87,12 +87,27 @@ namespace Business_Classes
         public void gameWon()
         {
             Score += 5000;
+            isLose = false;
+            gameEndString();
         }
 
-        //Event hanlder that determines what happens when pacman loses
+        //Event handlder that determines what happens when pacman loses
         public void gameLost()
         {
             Score -= Score+1;
+            gameEndString();
+        }
+
+        public String gameEndString()
+        {
+            gameDone = true;
+            if (isLose)
+                return "LOSE";
+            else
+                return "WUB";
+
+
+            
         }
         
     }

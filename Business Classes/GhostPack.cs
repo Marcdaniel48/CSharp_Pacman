@@ -38,7 +38,6 @@ namespace Business_Classes
                             break;
                         case GhostState.Scared:
                             ghost.Collide();
-                            ghost.Reset();
                             break;
                     }
 
@@ -103,6 +102,23 @@ namespace Business_Classes
         IEnumerator IEnumerable.GetEnumerator()
         {
             return ghosts.GetEnumerator();
+        }
+
+        public Ghost Ghost1()
+        {
+            return ghosts[0];
+        }
+        public Ghost Ghost2()
+        {
+            return ghosts[1];
+        }
+        public Ghost Ghost3()
+        {
+            return ghosts[2];
+        }
+        public Ghost Ghost4()
+        {
+            return ghosts[3];
         }
     }
 }

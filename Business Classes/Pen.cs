@@ -63,12 +63,32 @@ namespace Business_Classes
         /// <param name="ghost"></param>
         public void AddToPen(Ghost ghost)
         {
-            ghosts.Enqueue(ghost);
-            ghost.Position = pen[ghosts.Count - 1].Position;
-            Timer t = new Timer((ghosts.Count * 1000));
-            t.Enabled = true;
-            t.Elapsed += Release;
-            timers.Add(t);
+            Boolean exist = false;
+            foreach(Ghost g in ghosts)
+            {
+                if(g.GhostColour == ghost.GhostColour)
+                {
+                    exist = true;
+                    break;
+                }
+            }
+            if (ghosts.Count < pen.Count)
+            {
+                if (!exist)
+                {
+
+
+                    ghosts.Enqueue(ghost);
+                    ghost.Position = pen[ghosts.Count - 1].Position;
+                    Timer t = new Timer((ghosts.Count * 2000));
+                    t.Enabled = true;
+                    t.Elapsed += Release;
+                    timers.Add(t);
+
+                }
+            }
         }
+
+       
     }
 }

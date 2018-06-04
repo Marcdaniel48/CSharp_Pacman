@@ -71,9 +71,9 @@ namespace Business_Classes
             switch (dir)
             {
                 case Direction.Up:
-                    if (maze[(int)position.X, (int)position.Y - 1].CanEnter())
+                    if (maze[(int)position.Y - 1, (int)position.X].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.Y + 1,(int)position.X]);
+                        pathTiles.Add(maze[(int)position.Y - 1,(int)position.X]);
                     }
                     if (maze[(int)position.Y,(int)position.X - 1].CanEnter())
                     {
@@ -85,9 +85,9 @@ namespace Business_Classes
                     }
                     break;
                 case Direction.Down:
-                    if (maze[(int)position.Y + 1,(int)position.X].CanEnter())
+                    if (maze[(int)position.Y + 1, (int)position.X].CanEnter())
                     {
-                        pathTiles.Add(maze[(int)position.Y - 1,(int)position.X]);
+                        pathTiles.Add(maze[(int)position.Y + 1,(int)position.X]);
                     }
                     if (maze[(int)position.Y,(int)position.X + 1].CanEnter())
                     {
@@ -142,10 +142,14 @@ namespace Business_Classes
             {
                 for (int j = 0; j < maze.GetLength(1); j++)
                 {
-                    if (maze[i, j].Member != null)
+                    if(maze[i,j] is Path)
                     {
-                        allEmpty = false;
+                        if (maze[i, j].Member != null)
+                        {
+                            allEmpty = false;
+                        }
                     }
+                    
                 }
             }
 

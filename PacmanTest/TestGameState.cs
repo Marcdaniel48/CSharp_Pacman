@@ -31,7 +31,12 @@ namespace PacmanTest
 
 
 
-        GameState myGameState = GameState.Parse("TestLevel.csv");
+        GameState myGameState = GameState.Parse(System.IO.File.ReadAllText("levels.csv"));
+        [TestMethod]
+        public void TestArrayLength()
+        {
+            Assert.AreEqual(22, myGameState.Maze.Size);
+        }
 
         [TestMethod]
         public void TestMaze()

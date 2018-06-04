@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Business_Classes;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace PacmanTest
 {
@@ -11,7 +12,7 @@ namespace PacmanTest
     [TestClass]
     public class TestGhost
     {
-        GameState myGameState = GameState.Parse("TestLevel.csv");
+        GameState myGameState = GameState.Parse(File.ReadAllText("Testlevel.csv"));
 
         [TestMethod]
         public void TestCollisionOnChase()
